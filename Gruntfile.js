@@ -283,6 +283,11 @@ module.exports = function (grunt) {
         'uglify'
     ]);
 
+    grunt.registerTask('travis', [
+        'test',
+        'build'
+    ]);
+
     grunt.registerTask('default', [
         'test',
         'build'

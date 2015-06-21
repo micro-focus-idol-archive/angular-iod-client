@@ -42,7 +42,6 @@
         "node": ">=0.10.0"
     },
     "scripts": {
-        "test": "grunt test",
-        "build": "grunt build"
+        "test": "grunt travis --verbose"
     }
 }
