@@ -271,7 +271,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
-        'concurrent:test',
         'autoprefixer',
         'connect:test',
         'karma'
@@ -282,6 +281,11 @@ module.exports = function (grunt) {
         'concat',
         'ngAnnotate',
         'uglify'
+    ]);
+
+    grunt.registerTask('travis', [
+        'test',
+        'build'
     ]);
 
     grunt.registerTask('default', [
