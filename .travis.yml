@@ -1,15 +1,17 @@
 language: node_js
 node_js:
-  - '0.10'
+- '0.10'
 before_script:
-  - 'npm install -g bower grunt-cli'
-  - 'bower install'
+- npm install -g bower grunt-cli
+- bower install
 deploy:
-    provider: releases
-    api_key: "5b228f8e9d399f819824d4ecc403f4acfe96642d"
-    file:
-    - "dist/angular-iod-client.js"
-    - "dist/angular-iod-client.min.js"
-    skip_cleanup: true
-    on:
-      tags: true
+  provider: releases
+  api_key:
+    secure: e28jy5aQAv6y1pHiC+i6LZlvQrPB/br99+OgUCoJM3IXfATZ31xvC8J1rnMnUGNZGdl3lERaWa5AkRX4bbUzq6AGwmLu6v7tUOZS746QK1Q1W3eCExQ93OG2vEwN9ZJxwFKdrlnujTFIgnTeQBLmizbC/jv0CF7t5X3mihirwFbAzRAjK0S2mvZyDvZbb3wto8uV+Ram2b+ZOj2uygxYlU1gwS69Mgm249GjCE0FF7ZOyZGz1uUFDGjiajG1Waz3wzItgF0fnJK4miyGOfWKSYCjHnkwcj4eE7x89iVWWgOKzYU4FScG5rj1tJmOd+8QM6MISidbalacain0Z/6rW7+styfUhiRrc8msj/rz65aslAvjlUBDb1mr654YL3GaK/FvAJe01/u6v1UNusm/bQ/IxOmdO4imnwd/Pbi2tNDD3Ri/nCYga/xdlvDPElRC8vJzUc01G16HXoCn4mnLxNkSGvuMPSQc6qpz4RLLyc1NRoIbMuCSkghbVSBuIp7GNteKoe3amU7r9KqUXv3u/LNGtLYdTVn2ZEONcUTvuCxpqr5rI5qaD8YXrLm+XS82JckB2PVIEk69YSgUQ+kIn2nNntvXUp9c72AqfszYcGiEuqiiB1XuKJsj0dVQC0QLRxBb1PUPo4dVN1Nz+bu9IFOOU9Cf17Fnrt3V/ODpQiQ=
+  file:
+  - dist/angular-iod-client.js
+  - dist/angular-iod-client.min.js
+  skip_cleanup: true
+  on:
+    repo: hpautonomy/angular-iod-client
+    tags: true
