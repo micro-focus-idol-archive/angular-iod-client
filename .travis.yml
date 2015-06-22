@@ -4,3 +4,12 @@ node_js:
 before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install'
+deploy:
+    provider: releases
+    api_key: "5b228f8e9d399f819824d4ecc403f4acfe96642d"
+    file:
+    - "dist/angular-iod-client.js"
+    - "dist/angular-iod-client.min.js"
+    skip_cleanup: true
+    on:
+      tags: true
