@@ -9,15 +9,23 @@ IodEnvConfigService.$inject = ['envConfig', '$log'];
 
 /* @ngInject */
 function IodEnvConfigService(envConfig, $log) {
-	//$log = $log.getInstance("IodEnvConfigService");
+
+	var HOD_CONFIG = {
+		PROTOCOL : 'https',
+		DOMAIN : 'havenondemand.com',
+		PORT : undefined,
+		API_DOMAIN_PREFIX : 'api',
+		PLATFORM_VERSION : '1'
+	};
+
 	var isConfigValid = true;
 	var IOD_HOST_URL;
 	var IOD_PORTAL_URL;
 	var API_KEY;
 
 	try {
-		IOD_HOST_URL = envConfig.iod_config.protocol + '://' + envConfig.iod_config.domain + ( envConfig.iod_config.port ? ':' + envConfig.iod_config.port : '');
-		IOD_PORTAL_URL = envConfig.portal_config.protocol + '://' + envConfig.portal_config.domain + ( envConfig.portal_config.port ? ':' + envConfig.portal_config.port : '');
+		IOD_HOST_URL = [HOD_CONFIG.PROTOCOL, '://' ,HOD_CONFIG.API_DOMAIN_PREFIX, HOD_CONFIG.DOMAIN, ( HOD_CONFIG.PORT? ':' + HOD_CONFIG.PORT: '')].join('');
+		IOD_PORTAL_URL = [HOD_CONFIG.PROTOCOL, '://' , HOD_CONFIG.DOMAIN, ( HOD_CONFIG.PORT? ':' + HOD_CONFIG.PORT: '')].join('');
 	} catch (e) {
 		IOD_HOST_URL = '';
 		IOD_PORTAL_URL = '';
