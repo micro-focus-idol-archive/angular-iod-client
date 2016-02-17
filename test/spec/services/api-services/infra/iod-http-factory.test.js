@@ -15,19 +15,19 @@ describe('IOD-HTTP-Factory Test ', function () {
   envConfigMock = {
     "env": "production",
     "iod_config": {
-      "protocol": "http",
-      "domain": "iod-core",
-      "host": null,
-      "port": 8080
+      "protocol": "https",
+      "domain": "api.havenondemand.com",
+      "host": undefined,
+      "port": undefined
     },
     "portal_config": {
-      "protocol": "http",
-      "domain": "iod-core",
-      "host": null,
-      "port": 8081
+      "protocol": "https",
+      "domain": "havenondemand.com",
+      "host": undefined,
+      "port": undefined
     }
   };
-  var API_LEVEL = 2;
+  var API_LEVEL = 1;
   var URL_PREFIX = {API: 'api', INFO: 'info', DISCOVERY: 'discovery'}
   var SYNC_PREFIX = {SYNC: 'sync', ASYNC: 'async'}
 
@@ -105,10 +105,6 @@ describe('IOD-HTTP-Factory Test ', function () {
       expect(serviceUnderTest.doApiDelete).toBeDefined();
       expect(serviceUnderTest.doInfoGet).toBeDefined();
       expect(serviceUnderTest.doDiscoveryGet).toBeDefined();
-      expect(serviceUnderTest.doGet).toBeDefined();
-      expect(serviceUnderTest.doPost).toBeDefined();
-      expect(serviceUnderTest.doPut).toBeDefined();
-      expect(serviceUnderTest.doDelete).toBeDefined();
       expect(serviceUnderTest.doApiPostWithoutDataValidation).toBeDefined();
       expect(logMock.getInstance).toHaveBeenCalled();
     });
@@ -116,7 +112,7 @@ describe('IOD-HTTP-Factory Test ', function () {
 
   });
 
-  describe('Validate the plain HTTP methods', function () {
+  /*describe('Validate the plain HTTP methods', function () {
     afterEach(function () {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
@@ -282,7 +278,7 @@ describe('IOD-HTTP-Factory Test ', function () {
       });
     });
 
-  });
+  });*/
 
   describe('Validate the API methods', function () {
 

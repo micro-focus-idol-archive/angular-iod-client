@@ -5,7 +5,7 @@ angular
 	.module('iod-client')
 	.factory('iodHttpService', IodHttpService);
 
-IodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService', 'iodSessionToken'];
+IodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService'];
 
 /* @ngInject */
 function IodHttpService($http, $log, iodEnvConfigService) {
