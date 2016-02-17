@@ -10,7 +10,6 @@ IodDiscoveryService.$inject = ['$log','iodHttpService'];
 /* @ngInject */
 function IodDiscoveryService($log,iodHttpService) {
 
-    $log = $log.getInstance('IodDiscoveryService');
 
     var service = {
         getConnectorAgentDownloadLinks: getConnectorAgentDownloadLinks
