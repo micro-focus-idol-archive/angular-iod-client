@@ -4,23 +4,6 @@ angular.module('iod-client', [])
     $httpProvider.defaults.withCredentials = true; // Setting to true to allow cookies to pass in order to allow IOD's SSO
   }]);
 
-angular.module('envConfig', []).provider("envConfig", function () {
-  this.$get = function () {
-    var envConfig = {};
-    var q = jQuery.ajax({
-      type: 'GET',
-      url: '/config.json',
-      cache: false,
-      async: false,
-      contentType: 'application/json',
-      dataType: 'json'
-    });
-    if (q.status === 200) {
-      angular.extend(envConfig, angular.fromJson(q.responseText));
-    }
-    return envConfig;
-  };
-});
 
 function ReqBodyData(data) {
     var that = this;
@@ -96,315 +79,245 @@ ReqQueryParams.prototype.remove = function (key) {
         delete that.params[key];
     }
 }
+'use strict';
 /**
- * Define the  MeasureQueryParams constructor
- * @param params
- * @constructor
+ * @ngdoc service
+ * @name iod-client.iodConnectorService
+ * @description
+ * # iodConnectorService
+ * Wraps API calls for the HOD's Connector APIs.
+ *
+ * For more information about connectors see [Connectors](https://dev.havenondemand.com/docs/Connectors.html)
  */
-function EventsQueryParams(params) {
-    // calling super constructor
-    StatisticsQueryParams.call(this, params);
-}
-
-// Create a MeasureQueryParams.prototype object that inherits from StatisticsQueryParams.prototype.
-EventsQueryParams.prototype = Object.create(StatisticsQueryParams.prototype);
-
-// Set the "constructor" property to refer to MeasureQueryParams
-EventsQueryParams.prototype.constructor = EventsQueryParams;
-
-EventsQueryParams.prototype.addParamNameParam = function (paramName) {
-    this.append({param_name: paramName});
-};
-
-EventsQueryParams.prototype.addParamValueParam = function (paramValue) {
-    this.append({param_value: paramValue});
-};
-
-EventsQueryParams.prototype.addAggregationFuncParam = function (aggrFunc) {
-    this.append({aggregation_function: aggrFunc});
-};
-
-EventsQueryParams.prototype.addShouldGroupByApiValueParam = function (shouldGroupByApiValue) {
-    this.append({group_by_param_value: shouldGroupByApiValue});
-};
-
-/**
- * Define the  MeasureQueryParams constructor
- * @param params
- * @constructor
- */
-function MeasureQueryParams(params) {
-    // calling super constructor
-    StatisticsQueryParams.call(this, params);
-}
-
-// Create a MeasureQueryParams.prototype object that inherits from StatisticsQueryParams.prototype.
-MeasureQueryParams.prototype = Object.create(StatisticsQueryParams.prototype);
-
-// Set the "constructor" property to refer to MeasureQueryParams
-MeasureQueryParams.prototype.constructor = MeasureQueryParams;
-
-MeasureQueryParams.prototype.addObjectNameParam = function (paramName) {
-    this.append({object_name: paramName});
-};
-
-MeasureQueryParams.prototype.addMeasureNameParam = function (paramName) {
-    this.append({measure_name: paramName});
-};
-
-MeasureQueryParams.prototype.addFuncParam = function (aggrFunc) {
-    this.append({function: aggrFunc});
-};
-
-MeasureQueryParams.prototype.addShouldGroupByObjectNameParam = function (shouldGroupByObjectName) {
-    this.append({group_by_object_name: shouldGroupByObjectName});
-};
-
-MeasureQueryParams.prototype.addShouldGroupByStringValueParam = function (shouldGroupByStringValue) {
-    this.append({group_by_string_value: shouldGroupByStringValue});
-};
-
-MeasureQueryParams.prototype.addMinDateParamPeriodAgo = function (period) {
-    if (period !== undefined) {
-        var minDate = moment().subtract(1, period).toISOString();
-        this.append({min_date: minDate});
-    }
-};
-
-
-function StatisticsQueryParams(params) {
-    // calling super constructor
-    ReqQueryParams.call(this, params);
-}
-
-// Create a StatisticsQueryParams.prototype object that inherits from ReqQueryParams.prototype.
-StatisticsQueryParams.prototype = Object.create(ReqQueryParams.prototype);
-
-// Set the "constructor" property to refer to StatisticsQueryParams
-StatisticsQueryParams.prototype.constructor = StatisticsQueryParams;
-
-
-StatisticsQueryParams.PERIODS = {DAY: 'day', WEEK: 'week', MONTH: 'month'};
-
-StatisticsQueryParams.AGGR_FUNC_TYPES = {
-    COUNT: "count(*)",
-    SUM: "sum(measure)",
-    MAX: "max(measure)",
-    MIN: "min(measure)",
-    AVG: "avg(measure)"
-};
-
-StatisticsQueryParams.SORT_OPTIONS = {
-    ASC: "measure_asc",
-    DESC: "measure_desc",
-    TIME_ASC: "time_granularity_asc",
-    TIME_DESC: "time_granularity_desc"
-};
-
-StatisticsQueryParams.prototype.addApiNameParam = function (apiName) {
-    this.append({api_name: apiName});
-};
-
-StatisticsQueryParams.prototype.addGroupByPeriodParam = function (groupByPeriod) {
-    this.append({group_by_period: groupByPeriod});
-};
-
-StatisticsQueryParams.prototype.addGroupByUserId = function (groupByUser) {
-    this.append({group_by_user_id: groupByUser});
-};
-
-StatisticsQueryParams.prototype.addShouldGroupByApiNameParam = function (shouldGroupByApiName) {
-    this.append({group_by_api_name: shouldGroupByApiName});
-};
-
-StatisticsQueryParams.prototype.addMinDateParamPeriodAgo = function (period) {
-    if (period !== undefined) {
-        var minDate = moment().subtract(1, period).toISOString();
-        this.append({min_date: minDate});
-    }
-};
-
-StatisticsQueryParams.prototype.addMaxDateParam = function (date) {
-    if (date !== undefined && (_.isDate(date) || date._isAMomentObject)) {
-        var maxDate = date.toISOString();
-        this.append({max_date: maxDate});
-    }else {
-        throw new Error('date argument is invalid');
-    }
-};
-
-StatisticsQueryParams.prototype.addMinDateParam = function (date) {
-    if (date !== undefined && (_.isDate(date) || date._isAMomentObject)) {
-        var minDate = date.toISOString();
-        this.append({min_date: minDate});
-    } else {
-        throw new Error('date argument is invalid');
-    }
-};
-
-StatisticsQueryParams.prototype.addPageNumberParam = function (pageNumber) {
-    this.append({page_number: pageNumber});
-};
-
-StatisticsQueryParams.prototype.addMaxPageResultsParam = function (maxPageResults) {
-    this.append({max_page_results: maxPageResults});
-};
-
-StatisticsQueryParams.prototype.addSortByParam = function (sortBy) {
-    this.append({sort_by: sortBy});
-};
-
-StatisticsQueryParams.prototype.addShouldGroupByUserIdParam = function (shouldGroupByUserId) {
-    this.append({group_by_user_id: shouldGroupByUserId});
-};
-
-StatisticsQueryParams.prototype.addShouldGroupByApiKey = function (shouldGroupByApiKey) {
-    this.append({group_by_api_key: shouldGroupByApiKey});
-};
 angular
-  .module('iod-client')
-  .factory('iodConnectorServiceNew', IodConnectorService);
+	.module('iod-client')
+	.factory('iodConnectorService', IodConnectorService);
 
 IodConnectorService.$inject = ['iodHttpService', '$log'];
 
 /* @ngInject */
 function IodConnectorService(iodHttpService, $log) {
-  $log = $log.getInstance('IodConnectorService');
+	var CONNECTOR_FLAVORS = {
+		WEB: 'web_cloud',
+		FS: 'filesystem_onsite',
+		SHAREPOINT: "remote_sharepoint_onsite",
+		DROPBOX: "dropbox_cloud"
+	};
 
-  var CONNECTOR_FLAVORS = {
-    WEB: 'web_cloud',
-    FS: 'filesystem_onsite',
-    SHAREPOINT: "remote_sharepoint_onsite",
-    DROPBOX: "dropbox_cloud"
-  };
+	var ACTIONS = {
+		ADD_TO_INDEX: "addtotextindex"
+	};
 
-  var ACTIONS = {
-    ADD_TO_INDEX: "addtotextindex"
-  };
+	var service = {
+		createConnector: createConnector,
+		deleteConnector: deleteConnector,
+		updateConnector: updateConnector,
+		startConnector: startConnector,
+		stopConnector: stopConnector,
+		connectorStatus: connectorStatus,
+		retrieveConfig: retrieveConfig,
+		cancelConnectorSchedule: cancelConnectorSchedule,
+		connectorHistory: connectorHistory
+	};
 
-  /* var SUPPORTED_CONNECTOR_TYPES= {
-   WEB: "web"
-   };
-   */
-  var service = {
-    createConnector: createConnector,
-    deleteConnector: deleteConnector,
-    updateConnector: updateConnector,
-    startConnector: startConnector,
-    stopConnector: stopConnector,
-    connectorStatus: connectorStatus,
-    retrieveConfig: retrieveConfig,
-    cancelConnectorSchedule: cancelConnectorSchedule,
-    connectorHistory: connectorHistory
-  };
+	return service;
 
-  return service;
+	////////////////
 
-  ////////////////
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#createConnector
+	 * @methodOf iod-client.iodConnectorService
+	 *
+	 * @param {string} connectorFlavor The flavor of the connector to create
+	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
+	 * @param {string} url For a Web or SharePoint connector, the
+	 * @param {string} indexName Index name
+	 * @param {json=} config A JSON object defining the connector configuration.
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 *
+	 */
+	function createConnector(connectorType, connectorName, url, indexName,advancedConnectorParams, optionalParams) {
+		var connectorResUrl = 'createconnector/v1';
 
-  function createConnector(connectorType, connectorName, url, indexName, interval, units, occurrences, advancedConnectorParams, credentialsParams) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/v1';
+		var configObj = advancedConnectorParams !== undefined ? advancedConnectorParams : {};
 
-    var configObj = advancedConnectorParams !== undefined ? advancedConnectorParams : {};
+		switch (connectorType) {
+			case CONNECTOR_FLAVORS.WEB:
+			case CONNECTOR_FLAVORS.SHAREPOINT:
+				configObj.url = url;
+				break;
+			case CONNECTOR_FLAVORS.FS:
+				configObj.directoryPathCSVs = url;
+				break
+		}
 
-    switch (connectorType) {
-      case CONNECTOR_FLAVORS.WEB:
-      case CONNECTOR_FLAVORS.SHAREPOINT:
-        configObj.url = url;
-        break;
-      case CONNECTOR_FLAVORS.FS:
-        configObj.directoryPathCSVs = url;
-        break
-    }
+		var config = configObj;
+		var dest = {"action": ACTIONS.ADD_TO_INDEX, "index": indexName};
 
-    var config = configObj;
-    var dest = {"action": ACTIONS.ADD_TO_INDEX, "index": indexName};
+		var params = new ReqBodyData();
+		params.append({'connector': connectorName})
+		params.append({"config": config});
+		params.append({"flavor": connectorType});
+		params.append({"destination": dest});
+		if (optionalParams) {
+			params.append(params.append({"destination": dest}));
+		}
+		return iodHttpService.doApiPost(connectorResUrl, params);
+	}
 
-    var params = new ReqBodyData();
-    params.append({"config": config});
-    params.append({"flavor": connectorType});
-    params.append({"destination": dest});
-    if (interval) {
-      var scheduleVal = {"frequency": {"frequency_type": units, "interval": interval}};
-      if (occurrences !== undefined && occurrences != "" && occurrences > 0)
-        scheduleVal.occurrences = occurrences;
-      //var schedule = JSON.stringify(scheduleVal);
-      var schedule = scheduleVal;
-      params.append({"schedule": schedule});
-    }
-    if (credentialsParams && credentialsParams.credentials) {
-      params.append({'credentials': credentialsParams.credentials});
-      params.append({'credentials_license': credentialsParams.credentials_license});
-      params.append({'credentials_policy': credentialsParams.credentials_policy});
-    }
-    return iodHttpService.doApiPost(connectorResUrl, params);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#deleteConnector
+	 * @methodOf iod-client.iodConnectorService
+	 *
+	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function deleteConnector(connectorName) {
+		$log.debug("deleting connector {0}", [connectorName]);
+		var connectorResUrl = 'deleteconnector/v1';
+		var reqParams = new ReqQueryParams({connector: connectorName})
+		return iodHttpService.doApiGet(connectorResUrl, reqParams);
+	}
 
-  function deleteConnector(connectorName) {
-    $log.debug("deleting connector {0}", [connectorName]);
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/v1';
-    return iodHttpService.doApiDelete(connectorResUrl);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#retrieveConfig
+	 * @methodOf iod-client.iodConnectorService
+	 *
+	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function retrieveConfig(connectorName, optionalParams) {
+		$log.debug("retrieveConfig {0}", [connectorName]);
 
-  function retrieveConfig(connectorName) {
-    $log.debug("retrieveConfig {0}", [connectorName]);
+		var params = new ReqQueryParams();
+		params.append({"connector": connectorName});
+		params.append({"output": "config_attributes"});
+		params.append(optionalParams)
+		var connectorResUrl = 'retrieveconfig/v1';
+		return iodHttpService.doApiGet(connectorResUrl, params);
+	}
 
-    var params = new ReqQueryParams();
-    params.append({"output": "config_attributes"});
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/config/v1';
-    return iodHttpService.doApiGet(connectorResUrl, params);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#connectorStatus
+	 * @methodOf iod-client.iodConnectorService
+	 *
+	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function connectorStatus(connectorName,optionalParams) {
+		$log.debug("connectorStatus {0}", [connectorName]);
 
-  function connectorStatus(connectorName) {
-    $log.debug("connectorStatus {0}", [connectorName]);
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/status/v1';
-    return iodHttpService.doApiGet(connectorResUrl);
-  }
+		var connectorResUrl = 'connectorstatus/v1';
+		var params = new ReqQueryParams();
+		params.append({"connector": connectorName});
+		params.append(optionalParams)
+		return iodHttpService.doApiGet(connectorResUrl, params);
+	}
 
-  function updateConnector(connectorName, configObj, indexName, scheduleObj) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/v1';
 
-    var bodyParams = new ReqBodyData();
-    if (configObj !== null && configObj !== undefined) {
-      bodyParams.append({config: configObj});
-    }
-    if (scheduleObj.enabled) {
-      var schedule = {"frequency": {"frequency_type": scheduleObj.units, "interval": scheduleObj.interval}}
-      if (scheduleObj.limitOccurrences)
-        schedule.occurrences = scheduleObj.occurrences;
-      bodyParams.append({schedule: schedule});
-    }
-    if (indexName != undefined) {
-      var dest = {"action": ACTIONS.ADD_TO_INDEX, "index": indexName};
-      bodyParams.append({destination: dest});
-    }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#updateConnector
+	 * @methodOf iod-client.iodConnectorService
+	 * @description Update existing connector configurations
+	 *
+	 *
+	 * @param {string} connectorName The name of the connector
+	 * @param {json=} configObj A JSON object defining the connector configuration.
+	 * @param {string=} indexName the Index name the connector send data to
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function updateConnector(connectorName, configObj, indexName, optionalParams) {
+		var connectorResUrl = 'updateconnector/v1';
+		var bodyParams = new ReqBodyData();
+		bodyParams.append({connector:connectorName})
+		if (configObj !== null && configObj !== undefined) {
+			bodyParams.append({config: configObj});
+		}
+		if (indexName != undefined) {
+			var dest = {action: ACTIONS.ADD_TO_INDEX, "index": indexName};
+			bodyParams.append({destination: dest});
+		}
+		if(optionalParams){
+			bodyParams.append(optionalParams)
+		}
+		return iodHttpService.doApiPost(connectorResUrl, bodyParams);
+	}
 
-    return iodHttpService.doApiPut(connectorResUrl, bodyParams);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#startConnector
+	 * @methodOf iod-client.iodConnectorService
+	 * @description start existing connector
 
-  function startConnector(connectorName, indexChanged) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/start/v1';
-    var params = new ReqBodyData();
-    if (indexChanged) {
-      params.append({ignore_previous_state: true});
-    }
-    return iodHttpService.doApiPost(connectorResUrl, params);
-  }
+	 * @param {string} connectorName The name of the connector
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function startConnector(connectorName, optionalParams) {
+		var connectorResUrl = '/startconnector/v1';
+		var params = new ReqBodyData();
+		params.append({connector:connectorName})
+		if (optionalParams) {
+			params.append(optionalParams);
+		}
+		return iodHttpService.doApiPost(connectorResUrl, params);
+	}
 
-  function stopConnector(connectorName) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/stop/v1';
-    return iodHttpService.doApiPost(connectorResUrl);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#stopConnector
+	 * @methodOf iod-client.iodConnectorService
+	 * @description stops a connector schedule.
+	 * @param {string} connectorName The name of the connector
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function stopConnector(connectorName) {
+		var connectorResUrl = '/stopconnector/v1';
+		var params = new ReqBodyData();
+		params.append({connector:connectorName})
+		return iodHttpService.doApiPost(connectorResUrl,params);
+	}
 
-  function cancelConnectorSchedule(connectorName) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/cancelschedule/v1';
-    return iodHttpService.doApiPost(connectorResUrl, params);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#cancelConnectorSchedule
+	 * @methodOf iod-client.iodConnectorService
+	 * @description Cancels a connector schedule.
+	 * @param {string} connectorName The name of the connector
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function cancelConnectorSchedule(connectorName) {
+		var connectorResUrl = 'cancelconnectorschedule/v1';
+		var params = new ReqBodyData();
+		params.append({connector:connectorName})
+		return iodHttpService.doApiPost(connectorResUrl,params);
+	}
 
-  function connectorHistory(connectorName) {
-    var connectorResUrl = 'connector/' + encodeURIComponent(connectorName) + '/history/v1';
-    return iodHttpService.doApiGet(connectorResUrl, params);
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodConnectorService#connectorHistory
+	 * @methodOf iod-client.iodConnectorService
+	 * @description Returns connector status history information.
+	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function connectorHistory(optionalParams) {
+		var connectorResUrl = 'connectorhistory/v1';
+		var params = new ReqQueryParams();
+		if(optionalParams){
+			params.append(optionalParams)
+		}
+		return iodHttpService.doApiGet(connectorResUrl,params);
+	}
 
 }
 
@@ -706,170 +619,6 @@ function IodSearchService($log, $q, iodHttpService) {
 }
 
 angular
-  .module('iod-client')
-  .factory('iodAuthService', IodAuthService);
-
-IodAuthService.$inject = ['$log', '$q', 'iodHttpService', 'iodSessionToken'];
-
-/* @ngInject */
-function IodAuthService($log, $q, iodHttpService, iodSessionToken) {
-  $log = $log.getInstance("IodAuthService");
-  var that = this;
-  that.ssoTokenDeffered = $q.defer();
-
-  ////////////////
-
-  /**
-   * Authenticate the session with IOD SSO
-   * @returns a promise for the authentication process, if successful should return the combined token for both application and user.
-   */
-  function auth() {
-
-    var deferred = $q.defer();
-    {
-      that.getUser().then(
-        function (userData) {
-          that.authApplication(userData).success(function (data) {
-            that.authCombined(data.token).then(function (data) {
-              iodSessionToken.setSessionToken(data.token);
-              that.removeTokenFromUrl();
-              that.ssoTokenDeffered.resolve();
-              that.getUserToken();
-              deferred.resolve();
-            }, function (e) {
-              that.ssoTokenDeffered.reject('Failed to retrieve the combined token ');
-              deferred.reject(e);
-            });
-          }).error(function (e) {
-            that.ssoTokenDeffered.reject('Failed to retrieve the unbound token ');
-            deferred.reject(e);
-          })
-        },
-        function (e) {
-          $log.debug('Failed to get users');
-          deferred.reject(e);
-        }
-      )
-
-    }
-    return deferred.promise;
-  }
-
-  function getConcatSenToken() {
-    return that.concatToken(that.sessionToken);
-  }
-
-  function getSSOInitPromise() {
-    return that.ssoTokenDeffered.promise;
-  }
-
-  function setApplicationName(applicationName) {
-    iodSessionToken.setApplicationName(applicationName);
-  }
-
-  function setApplicationKey(appKey) {
-    iodSessionToken.setApplicationKey(appKey);
-  }
-
-  ////////////////
-
-  this.concatToken = function (token) {
-    return [token.type, token.id, token.secret].join(':')
-  }
-
-  /**
-   * Requests an application token according to the application credentials, at the moment the credentials are hardcoded in the method. eventually, they should be received from the referrer portal e.g. IOD
-   * @returns a promise with the http response for the the application token
-   */
-  this.authApplication = function (userData) {
-    var apiKey = iodSessionToken.getApplicationKey();
-    var applicationName = iodSessionToken.getApplicationName();
-    var applicationDomain = iodSessionToken.getApplicationDomain();
-
-    var reqParams = {'apiKey': apiKey};
-    var reqData = {name: applicationName, domain: applicationDomain, token: 'simple'};
-    return iodHttpService.doPost('authenticate/application/unbound', reqData, reqParams);
-  }
-
-
-  /**
-   * Authenticate both the application token and the user token by using the IOD user authentication cookie, if one of the token is missing or invalid the API will return an error about an invalid token.
-   * @param token - the application token, as received from the unbound application authentication API
-   * @returns a promise with the response for the http combined request. the combined session token containing both the application and user token
-   */
-  this.authCombined = function (token) {
-    var deferred = $q.defer();
-    {
-      var concatToken = that.concatToken(token);
-      var reqParams = {app_token: concatToken};
-      var applicationName = iodSessionToken.getApplicationName();
-      var applicationDomain = iodSessionToken.getApplicationDomain();
-      var reqData = {token_type: 'simple', application: applicationName, domain: applicationDomain};
-      iodHttpService.doPost('authenticate/combined', reqData, reqParams).success(function (data) {
-        deferred.resolve(data);
-      }).error(function (e) {
-        $log.error('failed to get combined token ' + e);
-        deferred.reject(e);
-      })
-    }
-    return deferred.promise;
-  };
-
-  this.getUser = function () {
-    var deferred = $q.defer();
-    {
-      iodHttpService.doGet('user').success(function (data) {
-        iodSessionToken.setUsersData(data);
-        deferred.resolve(data);
-      }).error(function (e) {
-        deferred.reject(e);
-      })
-    }
-    return deferred.promise;
-  };
-
-  this.getUserToken = function () {
-    var deferred = $q.defer();
-    {
-      iodHttpService.doPost('authenticate/user/unbound').success(function (userToken) {
-        try {
-          iodSessionToken.setUserToken(userToken.token);
-          deferred.resolve(userToken);
-        } catch (e) {
-          deferred.reject(e);
-        }
-      }).error(function (e) {
-        deferred.reject(e);
-      })
-    }
-    return deferred.promise;
-  };
-
-  /**
-   * Removing all query params from the current URL and redirecting again to the same URL without the arguments.
-   * it should be called after the SSO redirection to remove the concat user unbound token
-   */
-  this.removeTokenFromUrl = function () {
-    if (window.location.search !== '') {
-      window.location.search = '';
-    }
-  }
-
-
-  ////////////////
-
-  var service = {
-    authenticate: auth,
-    getSSOInitPromise: getSSOInitPromise,
-    setApplicationName: setApplicationName,
-    setApplicationKey: setApplicationKey
-  };
-
-  return service;
-
-}
-
-angular
     .module('iod-client')
     .factory('iodDiscoveryService', IodDiscoveryService);
 
@@ -878,7 +627,6 @@ IodDiscoveryService.$inject = ['$log','iodHttpService'];
 /* @ngInject */
 function IodDiscoveryService($log,iodHttpService) {
 
-    $log = $log.getInstance('IodDiscoveryService');
 
     var service = {
         getConnectorAgentDownloadLinks: getConnectorAgentDownloadLinks
@@ -900,684 +648,485 @@ function IodDiscoveryService($log,iodHttpService) {
 }
 
 angular
-  .module('iod-client')
-  .factory('iodEnvConfigService', IodEnvConfigService);
+	.module('iod-client')
+	.factory('iodEnvConfigService', IodEnvConfigService);
 
-IodEnvConfigService.$inject = ['envConfig', '$log'];
+IodEnvConfigService.$inject = ['$log'];
 
 /* @ngInject */
-function IodEnvConfigService(envConfig, $log) {
-  $log = $log.getInstance("IodEnvConfigService");
-  var isConfigValid = true;
-  var IOD_HOST_URL;
-  var IOD_PORTAL_URL;
+function IodEnvConfigService( $log) {
+
+	var HOD_CONFIG = {
+		PROTOCOL : 'https',
+		DOMAIN : 'havenondemand.com',
+		PORT : undefined,
+		API_DOMAIN_PREFIX : 'api',
+		PLATFORM_VERSION : '1'
+	};
+
+	var isConfigValid = true;
+	var IOD_HOST_URL;
+	var IOD_PORTAL_URL;
+	var API_KEY;
+
+	try {
+		IOD_HOST_URL = [HOD_CONFIG.PROTOCOL, '://' ,HOD_CONFIG.API_DOMAIN_PREFIX,'.', HOD_CONFIG.DOMAIN, ( HOD_CONFIG.PORT? ':' + HOD_CONFIG.PORT: '')].join('');
+		IOD_PORTAL_URL = [HOD_CONFIG.PROTOCOL, '://' , HOD_CONFIG.DOMAIN, ( HOD_CONFIG.PORT? ':' + HOD_CONFIG.PORT: '')].join('');
+	} catch (e) {
+		IOD_HOST_URL = '';
+		IOD_PORTAL_URL = '';
+		$log.error('Configuration error! one of the IOD configuration attributes is missing');
+		isConfigValid = false;
+	}
 
 
-  try {
-    IOD_HOST_URL = envConfig.iod_config.protocol + '://' + envConfig.iod_config.domain + ( envConfig.iod_config.port ? ':' + envConfig.iod_config.port : '');
-    IOD_PORTAL_URL = envConfig.portal_config.protocol + '://' + envConfig.portal_config.domain + ( envConfig.portal_config.port ? ':' + envConfig.portal_config.port : '');
-  } catch (e) {
-    IOD_HOST_URL = '';
-    IOD_PORTAL_URL = '';
-    $log.error('Configuration error! one of the IOD configuration attributes is missing');
-    isConfigValid = false;
-  }
+	var service = {
+		getIodHost: getIodHost,
+		getIodPortal: getIodPortal,
+		setApiKey : setApiKey,
+		getApiKey:getApiKey,
+		isEnvConfigValid: isEnvConfigValid
+	};
+
+	return service;
+
+	////////////////
+
+	function getIodHost() {
+		return IOD_HOST_URL;
+	}
+
+	function getIodPortal() {
+		return IOD_PORTAL_URL;
+	}
+
+	function setApiKey(_apiKey){
+		if(_apiKey && angular.isString(_apiKey)){
+			API_KEY = _apiKey;
+		}
+		return API_KEY
+	}
+
+	function getApiKey(){
+		return API_KEY
+	}
+
+	function isEnvConfigValid() {
+		return isConfigValid;
+	}
+
+}
+
+'use strict';
+/**
+ *
+ * @ngdoc service
+ * @name iod-client.iodHttpService
+ * @description
+ * # iodHttpService
+ * Wraps $http to create API calls to HOD
+ *
+ *
+ * ## API-KEY
+ * All API requests should be appended with the tenant API-KEY, it should be set using the iod-env-config-service.setApiKey method prior to any API call
+ *
+ * ## Synchronous and Asynchronous API
+ * You can call Haven OnDemand API functions to run either synchronously or asynchronously.
+ * In the Synchronous API, Haven OnDemand processes the call immediately, and returns a single response, containing your results.
+ * In the Asynchronous API, Haven OnDemand receives the call, and returns a job ID, which allows you to track the status of the call. When the call is complete, the status message also returns the response and results.
+ * The synchronous API is ideal for API requests where you expect quick results. You can use this for small requests. However, you cannot check the status of a synchronous job, and if the connection is lost you must resubmit the request to get the results.
+ *
+ * ## Response codes
+ * [Warning-Codes](https://dev.havenondemand.com/docs/WarningCodes.html)
+ * [Error-Codes](https://dev.havenondemand.com/docs/ErrorCodes.html)
+ *
+ * For more information please see https://dev.havenondemand.com/docs/AsynchronousAPI.htm
+ */
+angular
+	.module('iod-client')
+	.factory('iodHttpService', IodHttpService);
+
+IodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService'];
+
+/* @ngInject */
+function IodHttpService($http, $log, iodEnvConfigService) {
+	var that = this;
+	that.sessionToken = null;
+
+	var API_LEVEL = 1;
+	var URL_PREFIX = {API: 'api', INFO: 'info', DISCOVERY: 'discovery'};
+	var SYNC = 'sync';
+	var ASYNC = 'async';
 
 
-  var service = {
-    getIodHost: getIodHost,
-    getIodPortal: getIodPortal,
-    isEnvConfigValid: isEnvConfigValid
-  };
+	var service = {
+		doApiGet: apiGet,
+		doApiPost: apiPost,
+		doApiPostWithoutDataValidation: doApiPostWithoutDataValidation,
+		doApiPut: apiPut,
+		doApiDelete: apiDelete,
+		doInfoGet: doInfoGet,
+		doDiscoveryGet: doDiscoveryGet
+	};
 
-  return service;
 
-  ////////////////
+	return service;
 
-  function getIodHost() {
-    return IOD_HOST_URL;
-  }
+	////////////////
 
-  function getIodPortal() {
-    return IOD_PORTAL_URL;
-  }
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#doInfoGet
+	 * @methodOf iod-client.iodHttpService
+	 * @description Do a HTTP GET call to the specified URL with an INFO prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function doInfoGet(url, urlParams) {
+		var concatUrl = _buildInfoPrefix(url);
+		var queryParams;
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
 
-  function isEnvConfigValid() {
-    return isConfigValid;
-  }
+		$log.debug('calling INFO get to ' + concatUrl);
+		return _doGet(concatUrl, queryParams)
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#doDiscoveryGet
+	 * @methodOf iod-client.iodHttpService
+	 * @description Do a HTTP GET call to the specified URL with a DISCOVERY prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function doDiscoveryGet(url, urlParams) {
+		var concatUrl = _buildDiscoveryPrefix(url);
+		var queryParams;
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+
+		$log.debug('calling DISCOVERY get to ' + concatUrl);
+		return _doGet(concatUrl, queryParams)
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#apiGet
+	 * @methodOf iod-client.iodHttpService
+	 * @description Do a HTTP GET call to the specified URL with an API prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @param {json=} headerParams Additional header to be attached to the call
+	 * @param {boolean=} isAsync Will this call be an SYNC or ASYNC call. default value is false
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function apiGet(url, urlParams, headerParams, isAsync) {
+		var urlPrefix = _buildApiPrefix(url, isAsync);
+		var queryParams;
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+
+		//concatUrl = urlPrefix + queryParams.toReqStr();
+		$log.debug('calling API get to ' + urlPrefix + ', with :' + headerParams);
+		return _doGet(urlPrefix, queryParams).then(function (response) {
+			return response.data
+		});
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#apiPost
+	 * @methodOf iod-client.iodHttpService
+	 * @description Do a HTTP POST request to the specified URL with an API prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json} data A JSON object to be applied to the request body as a form
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @param {boolean=} isAsync Will this call be an SYNC or ASYNC call. default value is false
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function apiPost(url, data, urlParams, isAsync) {
+		var queryParams;
+		var urlPrefix = _buildApiPrefix(url, isAsync);
+		//if (urlParams instanceof  ReqQueryParams) {
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+		$log.debug('calling API POST to ' + urlPrefix);
+		return _doPost(urlPrefix, data, queryParams).then(function (response) {
+			return response.data
+		});
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#apiPost
+	 * @methodOf iod-client.iodHttpService
+	 * @description Submit a HTTP POST request to to the specified URL with an API prefix, the request is done without any validation on the request body data to allow submitting calls without the  $httpProvider default configurations.
+	 *
+	 * @param {string} url the URL suffix to attach to the api.idolondemand prefix
+	 * @param {json} data - request body data,expecting a JSON object.
+	 * @param {json} urlParams - request query params, expecting a ReqQueryParams object or JSON object.
+	 * @param {json} reqConfigObj - request additional configurations, please see AnguleJS $http documentation.
+	 * @param {boolean=} isAsync - is request should be done in a Async operation. default value is false.
+	 * @returns {httpPromise} the $http response promise.
+	 */
+	function doApiPostWithoutDataValidation(url, data, urlParams, reqConfigObj, isAsync) {
+		var queryParams, concatUrl;
+		data = data || {};
+		reqConfigObj = reqConfigObj || {};
+
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+
+		concatUrl = [_buildUrlPrefix(), _buildApiPrefix(url, isAsync)].join('');
+
+		$log.debug('performing a POST request to ' + concatUrl);
+
+		var reqConfig = _.extend({
+			method: 'POST',
+			url: concatUrl,
+			params: queryParams.params,
+			data: data,
+			transformRequest: angular.identity,
+			headers: {'Content-Type': undefined}
+		}, reqConfigObj);
+		return $http(reqConfig).then(function (response) {
+			return response.data
+		});
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#apiPut
+	 * @methodOf iod-client.iodHttpService
+	 * @description Do a HTTP PUT request to the specified URL with an API prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json} data A JSON object to be applied to the request body as a form
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @param {boolean=} isAsync Will this call be an SYNC or ASYNC call. default value is false
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function apiPut(url, data, urlParams, isAsync) {
+		var queryParams;
+		var urlPrefix = _buildApiPrefix(url, isAsync);
+		if (urlParams instanceof  ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+		$log.debug('calling API PUT to ' + urlPrefix);
+		return _doPut(urlPrefix, queryParams, data).then(function (response) {
+			return response.data
+		})
+	}
+
+	/**
+	 * @ngdoc
+	 * @name iod-client.iodHttpService#apiDelete
+	 *@methodOf iod-client.iodHttpService
+	 * @description Do a HTTP DELETE request to the specified URL with an API prefix to the call
+	 *
+	 * @param {string} url Relative url to the wanted API
+	 * @param {json} data A JSON object to be applied to the request body as a form
+	 * @param {json=} urlParams A JSON object with the wanted URL query params
+	 * @param {boolean=} isAsync Will this call be an SYNC or ASYNC call. default value is false
+	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
+	 */
+	function apiDelete(url, urlParams, data, isAsync) {
+		var queryParams;
+		var urlPrefix = _buildApiPrefix(url, isAsync);
+		if (urlParams instanceof  ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+		_appendSessionToken(queryParams);
+		$log.debug('calling API PUT to ' + urlPrefix);
+		return _doDelete(urlPrefix, queryParams, data).then(function (response) {
+			return response.data
+		})
+	}
+
+	function _doGet(url, urlParams) {
+		var concatUrl, queryParams;
+		var urlPrefix = _buildUrlPrefix();
+		concatUrl = urlPrefix + url;
+
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+
+		$log.debug('performing a GET request to ' + concatUrl);
+		return $http({
+			method: 'GET',
+			url: concatUrl,
+			params: queryParams.params
+		});
+	}
+
+	function _doPost(url, data, urlParams) {
+		var concatUrl, queryParams, bodyParams;
+		var urlPrefix = _buildUrlPrefix();
+		concatUrl = urlPrefix + url;
+
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+
+		if (data instanceof  ReqBodyData) {
+			bodyParams = data;
+		} else {
+			bodyParams = new ReqBodyData(data);
+		}
+
+		$log.debug('performing a POST request to ' + concatUrl);
+		return $http({
+			method: 'POST',
+			url: concatUrl,
+			params: queryParams.params,
+			data: $.param(bodyParams.getSerializeParamaters()),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		});
+	}
+
+	function _doPut(url, urlParams, data) {
+		var concatUrl, queryParams, bodyParams;
+		var urlPrefix = _buildUrlPrefix();
+		concatUrl = urlPrefix + url;
+
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+
+		if (data instanceof  ReqBodyData) {
+			bodyParams = data;
+		} else {
+			bodyParams = new ReqBodyData(data);
+		}
+
+		$log.debug('preforming a PUT request to ' + concatUrl);
+		return $http({
+			method: 'PUT',
+			url: concatUrl,
+			params: queryParams.params,
+			data: $.param(bodyParams.getSerializeParamaters()),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).then(function (d) {
+			return d.data
+		});
+	}
+
+	function _doDelete(url, urlParams, data) {
+		var concatUrl, queryParams, bodyParams;
+
+		var urlPrefix = _buildUrlPrefix();
+		concatUrl = urlPrefix + url;
+
+		if (urlParams instanceof ReqQueryParams) {
+			queryParams = urlParams;
+		} else {
+			queryParams = new ReqQueryParams(urlParams);
+		}
+
+		if (data instanceof  ReqBodyData) {
+			bodyParams = data;
+		} else {
+			bodyParams = new ReqBodyData(data);
+		}
+
+		$log.debug('preforming a DELETE request to ' + concatUrl);
+		return $http({
+			method: 'DELETE',
+			url: concatUrl,
+			params: queryParams.params,
+			data: $.param(bodyParams.getSerializeParamaters()),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		});
+	}
+
+	function _appendSessionToken(queryParams) {
+		queryParams.append({apiKey: iodEnvConfigService.getApiKey()});
+	}
+
+	function _buildUrlPrefix() {
+		return iodEnvConfigService.getIodHost() + '/' + API_LEVEL + '/';
+	}
+
+	function _buildApiPrefix(url, isAsync) {
+		isAsync = isAsync || false;
+		return [URL_PREFIX.API, isAsync ? ASYNC : SYNC, url].join('/');
+	}
+
+	function _buildInfoPrefix(url) {
+		return [URL_PREFIX.INFO, url].join('/');
+	}
+
+	function _buildDiscoveryPrefix(url) {
+		return [URL_PREFIX.DISCOVERY, url].join('/');
+	}
 
 }
 
 angular
-  .module('iod-client')
-  .factory('iodHttpService', IodHttpService);
+	.module('iod-client')
+	.factory('iodInfoService', IodInfoService);
 
-IodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService', 'iodSessionToken'];
-
-/* @ngInject */
-function IodHttpService($http, $log, iodEnvConfigService, iodSessionToken) {
-  $log = $log.getInstance("IodHttpService");
-  var that = this;
-  that.sessionToken = null;
-
-  var API_LEVEL = 2; // IOD API level, updated to level 2 to support SSO communication
-  var URL_PREFIX = {API: 'api', INFO: 'info', DISCOVERY: 'discovery'};
-  var SYNC = 'sync';
-  var ASYNC = 'async';
-
-
-  var service = {
-    doApiGet: apiGet,
-    doApiPost: apiPost,
-    doApiPostWithoutDataValidation: doApiPostWithoutDataValidation,
-    doApiPut: apiPut,
-    doApiDelete: apiDelete,
-
-    doInfoGet: doInfoGet,
-
-    doDiscoveryGet: doDiscoveryGet,
-
-    doGet: doGet,
-    doPost: doPost,
-    doPut: doPut,
-    doDelete: doDelete
-  };
-
-
-  return service;
-
-  ////////////////
-
-  function appendSessionToken(queryParams) {
-    queryParams.append({token: iodSessionToken.getSessionToken()});
-  }
-
-  function doGet(url, urlParams) {
-    var concatUrl, queryParams;
-    var urlPrefix = buildUrlPrefix();
-    concatUrl = urlPrefix + url;
-
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-
-    $log.debug('performing a GET request to ' + concatUrl);
-    return $http({
-      method: 'GET',
-      url: concatUrl,
-      params: queryParams.params
-    });
-  }
-
-  function doPost(url, data, urlParams) {
-    var concatUrl, queryParams, bodyParams;
-    var urlPrefix = buildUrlPrefix();
-    concatUrl = urlPrefix + url;
-
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-
-    if (data instanceof  ReqBodyData) {
-      bodyParams = data;
-    } else {
-      bodyParams = new ReqBodyData(data);
-    }
-
-    $log.debug('performing a POST request to ' + concatUrl);
-    return $http({
-      method: 'POST',
-      url: concatUrl,
-      params: queryParams.params,
-      data: $.param(bodyParams.getSerializeParamaters()),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
-  }
-
-  function doPut(url, urlParams, data) {
-    var concatUrl, queryParams, bodyParams;
-    var urlPrefix = buildUrlPrefix();
-    concatUrl = urlPrefix + url;
-
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-
-    if (data instanceof  ReqBodyData) {
-      bodyParams = data;
-    } else {
-      bodyParams = new ReqBodyData(data);
-    }
-
-    $log.debug('preforming a PUT request to ' + concatUrl);
-    return $http({
-      method: 'PUT',
-      url: concatUrl,
-      params: queryParams.params,
-      data: $.param(bodyParams.getSerializeParamaters()),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
-  }
-
-  function doDelete(url, urlParams, data) {
-    var concatUrl, queryParams, bodyParams;
-
-    var urlPrefix = buildUrlPrefix();
-    concatUrl = urlPrefix + url;
-
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-
-    if (data instanceof  ReqBodyData) {
-      bodyParams = data;
-    } else {
-      bodyParams = new ReqBodyData(data);
-    }
-
-    $log.debug('preforming a DELETE request to ' + concatUrl);
-    return $http({
-      method: 'DELETE',
-      url: concatUrl,
-      params: queryParams.params,
-      data: $.param(bodyParams.getSerializeParamaters()),
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
-  }
-
-  function doInfoGet(url, urlParams) {
-    var concatUrl = buildInfoPrefix(url);
-    var queryParams;
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-
-    $log.debug('calling INFO get to ' + concatUrl);
-    return doGet(concatUrl, queryParams)
-  }
-
-  function doDiscoveryGet(url, urlParams) {
-    var concatUrl = buildDiscoveryPrefix(url);
-    var queryParams;
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-
-    $log.debug('calling DISCOVERY get to ' + concatUrl);
-    return doGet(concatUrl, queryParams)
-  }
-
-
-  function apiGet(url, urlParams, headerParams, isAsync) {
-    var urlPrefix = buildApiPrefix(url, isAsync);
-    var queryParams;
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-
-    //concatUrl = urlPrefix + queryParams.toReqStr();
-    $log.debug('calling API get to ' + urlPrefix + ', with :' + headerParams);
-    return doGet(urlPrefix, queryParams);
-  }
-
-  function apiPost(url, data, urlParams, isAsync) {
-    var queryParams;
-    var urlPrefix = buildApiPrefix(url, isAsync);
-    //if (urlParams instanceof  ReqQueryParams) {
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-    $log.debug('calling API POST to ' + urlPrefix);
-    return doPost(urlPrefix, data, queryParams)
-  }
-
-  /**
-   * Submit a HTTP POST request to api.idolondemand, the call is done without any validation on the request body data to allow submitting calls without the factory HTTP configurations.
-   * @param url the URL suffix to attach to the api.idolondemand prefix
-   * @param data - request body data,expecting a JSON object.
-   * @param urlParams - request query params, expecting a ReqQueryParams object or JSON object.
-   * @param reqConfigObj - request additional configurations, please see AnguleJS $http documentation.
-   * @param isAsync - is request should be done in a Async operation.
-   * @returns the $http response promise.
-   */
-  function doApiPostWithoutDataValidation(url, data, urlParams, reqConfigObj, isAsync) {
-    var queryParams, concatUrl;
-    data = data || {};
-    reqConfigObj = reqConfigObj || {};
-
-    if (urlParams instanceof ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-
-    concatUrl = [buildUrlPrefix(), buildApiPrefix(url, isAsync)].join('');
-
-    $log.debug('performing a POST request to ' + concatUrl);
-
-    var reqConfig = _.extend({
-      method: 'POST',
-      url: concatUrl,
-      params: queryParams.params,
-      data: data
-    }, reqConfigObj);
-    return $http(reqConfig);
-  }
-
-  function apiPut(url, data, urlParams, isAsync) {
-    var queryParams;
-    var urlPrefix = buildApiPrefix(url, isAsync);
-    if (urlParams instanceof  ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-    $log.debug('calling API PUT to ' + urlPrefix);
-    return doPut(urlPrefix, queryParams, data)
-  }
-
-  function apiDelete(url, urlParams, data, isAsync) {
-    var queryParams;
-    var urlPrefix = buildApiPrefix(url, isAsync);
-    if (urlParams instanceof  ReqQueryParams) {
-      queryParams = urlParams;
-    } else {
-      queryParams = new ReqQueryParams(urlParams);
-    }
-    appendSessionToken(queryParams);
-    $log.debug('calling API PUT to ' + urlPrefix);
-    return doDelete(urlPrefix, queryParams, data)
-  }
-
-  function buildUrlPrefix() {
-    return iodEnvConfigService.getIodHost() + '/' + API_LEVEL + '/';
-  }
-
-  function buildApiPrefix(url, isAsync) {
-    isAsync = isAsync || false;
-    return [URL_PREFIX.API, isAsync ? ASYNC : SYNC, url].join('/');
-  }
-
-  function buildInfoPrefix(url) {
-    return [URL_PREFIX.INFO, url].join('/');
-  }
-
-  function buildDiscoveryPrefix(url) {
-    return [URL_PREFIX.DISCOVERY, url].join('/');
-  }
-
-}
-
-angular
-    .module('iod-client')
-    .factory('iodInfoService', IodInfoService);
-
-IodInfoService.$inject = ['$log','iodHttpService'];
+IodInfoService.$inject = ['$log', 'iodHttpService'];
 
 /* @ngInject */
-function IodInfoService($log,iodHttpService) {
-    $log = $log.getInstance('IodInfoService');
+function IodInfoService($log, iodHttpService) {
+	$log = $log.getInstance('IodInfoService');
 
-    var service = {
-        getProjectQuotas : getProjectQuotas,
-        getIndexFlavorsQuota : getIndexFlavorsQuota
-    };
+	var service = {
+		getProjectQuotas: getProjectQuotas,
+		getIndexFlavorsQuota: getIndexFlavorsQuota
+	};
 
-    return service;
+	return service;
 
-    ////////////////
+	////////////////
 
-    function getProjectQuotas() {
-        return iodHttpService.doInfoGet('quota/project/');
-    }
+	function getProjectQuotas() {
+		return iodHttpService.doInfoGet('quota/project/');
+	}
 
-    function getIndexFlavorsQuota() {
-        return iodHttpService.doInfoGet('quota/indexflavors/');
-    }
-
-
-}
-
-angular
-    .module('iod-client')
-    .factory('iodSessionToken', IodSessionToken);
-
-IodSessionToken.$inject = ['$log'];
-
-/* @ngInject */
-function IodSessionToken($log) {
-    $log = $log.getInstance("IodSessionToken");
-
-    var self = this;
-    self.sessionToken = null;
-    self.sessionTokenConcated = null;
-    self.userToken = null;
-
-    self.userData = null;
-    self.applicationKey = null;
-    self.applicationName = null;
-    self.applicationDomain = null;
-
-    this.setApplicationDomain = function(applicationDomain) {
-        self.applicationDomain = angular.copy(applicationDomain);
-    };
-
-
-    var service = {
-        setSessionToken: setSessionToken,
-        getSessionToken: getSessionToken,
-        getSessionTokenObj: getSessionTokenObj,
-        setUsersData:setUsersData,
-        getUsersData:getUsersData,
-        setUserToken: setUserToken,
-        getUserToken: getUserToken,
-        setApplicationKey: setApplicationKey,
-        getApplicationKey: getApplicationKey,
-        setApplicationName: setApplicationName,
-        getApplicationName: getApplicationName,
-        getApplicationDomain: getApplicationDomain
-    };
-
-    return service;
-
-    ////////////////
-
-    function setSessionToken(sesToken) {
-        self.sessionToken = angular.copy(sesToken);
-        self.sessionTokenConcated = concatToken(self.sessionToken);
-    }
-
-    function getSessionToken() {
-        return self.sessionTokenConcated;
-    }
-
-    function getSessionTokenObj() {
-        return self.sessionToken;
-    }
-
-    function concatToken(token) {
-        return [token.type, token.id, token.secret].join(':')
-    }
-
-    function setUsersData(userData) {
-        var applicationDomain;
-        try {
-            self.userData = angular.copy(userData.users[0]);
-            applicationDomain = userData.users[0].user_store.split(":")[0];
-        } catch (e) {
-            applicationDomain = 'IOD-TEST-DOMAIN';
-        }
-        self.setApplicationDomain(applicationDomain);
-    }
-
-    function getUsersData() {
-        return self.userData;
-    }
-
-    function setUserToken(userToken){
-        self.userToken = angular.copy(userToken);
-    }
-
-    function getUserToken(){
-        return self.userToken;
-    }
-
-    function setApplicationKey(key) {
-        self.applicationKey = angular.copy(key);
-    }
-
-    function getApplicationKey() {
-        return self.applicationKey;
-    }
-
-    function setApplicationName(applicationName) {
-        self.applicationName = angular.copy(applicationName);
-    }
-
-    function getApplicationName() {
-        return self.applicationName;
-    }
-
-    function getApplicationDomain() {
-        return self.applicationDomain;
-    }
-}
-
-angular
-  .module('iod-client')
-  .factory('iodEventsService', IodEventsService);
-
-IodEventsService.$inject = ['$log', 'iodHttpService'];
-
-/* @ngInject */
-function IodEventsService($log, iodHttpService) {
-  $log = $log.getInstance('IodEventsService');
-
-  var EVENTS_API_SUFFIX = 'eventsapistatistics/v1';
-
-  var service = {
-    getSearchUseCount: getSearchUseCount,
-    getActiveUsers: getActiveUsers
-  };
-
-  return service;
-
-  ////////////////
-
-  function getSearchUseCount(minDate, groupByPeriod, indexName) {
-    var apiEventsParams = new EventsQueryParams();
-    apiEventsParams.addApiNameParam('querytextindex');
-    apiEventsParams.addAggregationFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    apiEventsParams.addGroupByPeriodParam(groupByPeriod);
-    if (minDate != undefined)
-      apiEventsParams.addMinDateParam(minDate);
-
-    apiEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.TIME_ASC);
-    if (indexName !== undefined) {
-      apiEventsParams.addParamNameParam('indexes');
-      apiEventsParams.addParamValueParam(indexName);
-    }
-    $log.debug('Calling eventsapistatistics for getSearchUseCount');
-    return iodHttpService.doApiGet(EVENTS_API_SUFFIX, apiEventsParams);
-  }
-
-  function getActiveUsers() {
-    var apiEventsParams = new EventsQueryParams();
-    apiEventsParams.addApiNameParam('querytextindex');
-    apiEventsParams.addAggregationFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    apiEventsParams.addGroupByUserId(true);
-    return iodHttpService.doApiGet(EVENTS_API_SUFFIX, apiEventsParams);
-  }
-}
-
-angular
-  .module('iod-client')
-  .factory('iodMeasureService', IodMeasureService);
-
-IodMeasureService.$inject = ['$log', 'iodHttpService'];
-
-/* @ngInject */
-function IodMeasureService($log, iodHttpService) {
-
-  $log = $log.getInstance('IodMeasureService');
-  var MEASURES_API_SUFFIX = 'eventsmeasurestatistics/v1';
-  var FUNC_TYPES = {
-    LAST: "last_by_object_name",
-    NONE: "none"
-  };
-
-  var MEASURE_NAMES = {
-    TOTAL_DOCS: "total_documents",
-    INDEX_SIZE: "total_index_size",
-    TERM_HIT: "term_hit",
-    QUERY_ZERO_HIT: "query_zero_hit_term",
-    PROMOTION_HIT: "promotion_hit"
-  };
-
-  var MAX_PAGE_RESULTS = 50;
-
-  var service = {
-    getZeroHitTermsForPeriod: getZeroHitTermsForPeriod,
-    getZeroHitTerms: getZeroHitTerms,
-    getTopPromotions: getTopPromotions,
-    getPopularSearchTerms: getPopularSearchTerms,
-    getRecentDocCountForIndexGroupByPeriod: getRecentDocCountForIndexGroupByPeriod,
-    getRecentDocCountUntilDatePerIndex: getRecentDocCountUntilDatePerIndex,
-    getRecentIndexSizePerIndexGroupByPeriod: getRecentIndexSizePerIndexGroupByPeriod,
-    getRecentIndexSizePerIndex: getRecentIndexSizePerIndex,
-    getIndexSizeGroupByPeriod: getIndexSizeGroupByPeriod
-  };
-
-  return service;
-
-  ////////////////
-
-  function getZeroHitTermsForPeriod(minDate, groupByPeriod) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.QUERY_ZERO_HIT);
-    measureEventsParams.addFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    measureEventsParams.addGroupByPeriodParam(groupByPeriod);
-    measureEventsParams.addMinDateParam(minDate);
-    measureEventsParams.addMaxPageResultsParam(MAX_PAGE_RESULTS);
-    measureEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.TIME_ASC);
-
-    $log.debug('Calling getZeroHitTermsForPeriod');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getZeroHitTerms(period) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.QUERY_ZERO_HIT);
-    measureEventsParams.addFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    measureEventsParams.addMinDateParamPeriodAgo(period);
-    measureEventsParams.addShouldGroupByStringValueParam(true);
-    measureEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.DESC);
-
-    $log.debug('Calling getZeroHitTerms');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getTopPromotions(period) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.PROMOTION_HIT);
-    measureEventsParams.addFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    measureEventsParams.addMinDateParamPeriodAgo(period);
-    measureEventsParams.addShouldGroupByObjectNameParam(true);
-    measureEventsParams.addShouldGroupByStringValueParam(true);
-    measureEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.DESC);
-
-    $log.debug('Calling getTopPromotions');
-
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getPopularSearchTerms(period) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.TERM_HIT);
-    measureEventsParams.addFuncParam(StatisticsQueryParams.AGGR_FUNC_TYPES.COUNT);
-    measureEventsParams.addMinDateParamPeriodAgo(period);
-    measureEventsParams.addShouldGroupByStringValueParam(true);
-    measureEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.DESC);
-
-    $log.debug('Calling getPopularSearchTerms');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getRecentDocCountForIndexGroupByPeriod(indexName, startDate, groupByPeriod) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.TOTAL_DOCS);
-    measureEventsParams.addFuncParam(FUNC_TYPES.LAST);
-    measureEventsParams.addGroupByPeriodParam(groupByPeriod);
-    measureEventsParams.addMinDateParam(startDate);
-    measureEventsParams.addMaxPageResultsParam(MAX_PAGE_RESULTS);
-    if (indexName !== undefined) {
-      measureEventsParams.addObjectNameParam(indexName);
-    }
-
-    $log.debug('Calling getRecentDocCountForIndexGroupByPeriod');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getRecentDocCountUntilDatePerIndex(indexName, maxDate) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.TOTAL_DOCS);
-    measureEventsParams.addFuncParam(FUNC_TYPES.LAST);
-    measureEventsParams.addShouldGroupByObjectNameParam(true);
-    if (maxDate) {
-      measureEventsParams.addMaxDateParam(maxDate);
-    }
-    if (indexName !== undefined) {
-      measureEventsParams.addObjectNameParam(indexName);
-    }
-
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getRecentIndexSizePerIndexGroupByPeriod(startDate, groupByPeriod) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.INDEX_SIZE);
-    measureEventsParams.addFuncParam(FUNC_TYPES.LAST);
-    measureEventsParams.addGroupByPeriodParam(groupByPeriod);
-    if (startDate != undefined)
-      measureEventsParams.addMinDateParam(startDate);
-    measureEventsParams.addMaxPageResultsParam(MAX_PAGE_RESULTS);
-
-    $log.debug('Calling getRecentIndexSizePerIndexGroupByPeriod');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getRecentIndexSizePerIndex(indexName, maxDate) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.INDEX_SIZE);
-    measureEventsParams.addFuncParam(FUNC_TYPES.LAST);
-    measureEventsParams.addShouldGroupByObjectNameParam(true);
-    if (maxDate !== undefined) {
-      measureEventsParams.addMaxDateParam(maxDate);
-    }
-    if (indexName !== undefined) {
-      measureEventsParams.addObjectNameParam(indexName);
-    }
-    measureEventsParams.addMaxPageResultsParam(MAX_PAGE_RESULTS);
-    measureEventsParams.addSortByParam(StatisticsQueryParams.SORT_OPTIONS.DESC);
-
-    $log.debug('Calling getRecentIndexSizePerIndex');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
-
-  function getIndexSizeGroupByPeriod(indexName, minDate, groupByPeriod) {
-    var measureEventsParams = new MeasureQueryParams();
-    measureEventsParams.addMeasureNameParam(MEASURE_NAMES.INDEX_SIZE);
-    measureEventsParams.addFuncParam(FUNC_TYPES.LAST);
-    measureEventsParams.addGroupByPeriodParam(groupByPeriod);
-    measureEventsParams.addMinDateParam(minDate);
-    measureEventsParams.addObjectNameParam(indexName);
-    measureEventsParams.addMaxPageResultsParam(MAX_PAGE_RESULTS);
-
-    $log.debug('Calling getIndexSizeGroupByPeriod');
-    return iodHttpService.doApiGet(MEASURES_API_SUFFIX, measureEventsParams);
-  }
+	function getIndexFlavorsQuota() {
+		return iodHttpService.doInfoGet('quota/indexflavors/');
+	}
 
 
 }
