@@ -1,5 +1,10 @@
 /**
- * Created by avidan on 08-06-15.
+ * @ngdoc overview
+ * @name iod-client
+ * @description
+ * This module is a utility client to wrap HavenOnDemand APIs as an Angular.js client
+ *
+ * For more additional information about the APIs please see [HOD documentation](https://dev.havenondemand.com/docs)
  */
 angular.module('iod-client', [])
   .config(['$httpProvider', function ($httpProvider) {
