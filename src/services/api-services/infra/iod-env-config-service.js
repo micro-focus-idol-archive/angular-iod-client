@@ -3,12 +3,12 @@
  */
 angular
 	.module('hod-client')
-	.factory('iodEnvConfigService', IodEnvConfigService);
+	.factory('hodEnvConfigService', HodEnvConfigService);
 
-IodEnvConfigService.$inject = ['$log'];
+HodEnvConfigService.$inject = ['$log'];
 
 /* @ngInject */
-function IodEnvConfigService( $log) {
+function HodEnvConfigService( $log) {
 
 	var HOD_CONFIG = {
 		PROTOCOL : 'https',

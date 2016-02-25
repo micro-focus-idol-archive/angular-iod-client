@@ -24,10 +24,10 @@ describe('', function () {
 
 
 	beforeEach(function () {
-		inject(function ($rootScope, iodEnvConfigService) {
+		inject(function ($rootScope, hodEnvConfigService) {
 			rootScope = $rootScope;
 			scope = rootScope.$new();
-			serviceUnderTest = iodEnvConfigService;
+			serviceUnderTest = hodEnvConfigService;
 		})
 	});
 

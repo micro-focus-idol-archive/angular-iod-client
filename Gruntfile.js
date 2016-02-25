@@ -170,7 +170,7 @@ module.exports = function (grunt) {
 					banner: "'use strict';\n",
 					sourceMap: true
 				}, files: {
-					'<%= config.dist %>/angular-iod-client.js': ['src/iod-client.module.js', 'src/**/*.js']
+					'<%= config.dist %>/angular-hod-client.js': ['src/iod-client.module.js', 'src/**/*.js']
 				}
 			},
 			temp: {
@@ -204,7 +204,7 @@ module.exports = function (grunt) {
 		uglify: {
 			dist: {
 				files: {
-					'<%= config.dist %>/angular-iod-client.min.js': ['.tmp/ngAnnotate/scripts/basic.js']
+					'<%= config.dist %>/angular-hod-client.min.js': ['.tmp/ngAnnotate/scripts/basic.js']
 				}
 			}
 		},

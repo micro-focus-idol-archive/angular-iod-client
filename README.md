@@ -10,18 +10,18 @@ This repo uses git-flow. develop is the development branch. master is the last k
 
 ## Installation
 
-    bower install angular-iod-client
+    bower install angular-hod-client
 
 
 ## Getting started 
 * Include the package js file in your HTML file
-* Add `iod-client` to your main module dependency list
-* Set up your API-KEY to use on the calls using `iodEnvConfigService.setApiKey()`
+* Add `hod-client` to your main module dependency list
+* Set up your API-KEY to use on the calls using `hodEnvConfigService.setApiKey()`
 * Use `hodHttpService` for the different HTTP calls 
 
 ## Services 
 
-### iodEnvConfigService
+### hodEnvConfigService
 This service is essential for the HOD tenant configurations. Calling `setApiKey()` with you API-KEY     
 
 ### hodHttpService

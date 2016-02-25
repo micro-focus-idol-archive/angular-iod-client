@@ -27,10 +27,10 @@ angular
 	.module('hod-client')
 	.factory('hodHttpService', HodHttpService);
 
-HodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService'];
+HodHttpService.$inject = ['$http', '$log', 'hodEnvConfigService'];
 
 /* @ngInject */
-function HodHttpService($http, $log, iodEnvConfigService) {
+function HodHttpService($http, $log, hodEnvConfigService) {
 	var that = this;
 	that.sessionToken = null;
 
@@ -360,11 +360,11 @@ function HodHttpService($http, $log, iodEnvConfigService) {
 	}
 
 	function _appendSessionToken(queryParams) {
-		queryParams.append({apiKey: iodEnvConfigService.getApiKey()});
+		queryParams.append({apiKey: hodEnvConfigService.getApiKey()});
 	}
 
 	function _buildUrlPrefix() {
-		return iodEnvConfigService.getIodHost() + '/' + API_LEVEL + '/';
+		return hodEnvConfigService.getIodHost() + '/' + API_LEVEL + '/';
 	}
 
 	function _buildApiPrefix(url, isAsync) {

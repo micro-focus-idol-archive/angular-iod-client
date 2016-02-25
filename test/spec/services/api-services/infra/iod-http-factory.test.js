@@ -10,7 +10,7 @@ describe('IOD-HTTP-Factory Test ', function () {
 		logMock,
 		envConfigMock,
 		serviceUnderTest,
-		iodEnvConfigServiceMock;
+		hodEnvConfigServiceMock;
 
 	envConfigMock = {
 		"env": "production",
