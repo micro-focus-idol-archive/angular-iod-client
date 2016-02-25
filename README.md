@@ -1,15 +1,7 @@
-# angular-iod-client
-Angular.js IDOL OnDemand client
+# Angular.js Haven OnDemand client
 
-# jsWhatever
-[![Build Status](https://travis-ci.org/hpe-idol/angular-iod-client.svg?branch=master](https://travis-ci.org/hpe-idol/angular-iod-client)
-
-A collection of Javascript utilities using Backbone and Bootstrap 2.
-
-This project exposes AMD modules. The path to the project root directory must be aliased as js-whatever. The module names
-in the documentation reflect this.
-
-Documentation can be found [here](http://hpautonomy.github.io/jsWhatever).
+## Overview 
+HOD client for Angular.JS is a module which allow to easy integrate your project with HPE Haven OnDemand APIs 
 
 This repo uses git-flow. develop is the development branch. master is the last known good branch.
 
@@ -18,15 +10,11 @@ This repo uses git-flow. develop is the development branch. master is the last k
     bower install angular-iod-client
 
 ## Grunt tasks
-* grunt : runs the lint, test, and coverage tasks
+* grunt : runs the test, and build tasks
 * grunt test : Runs the Jasmine tests in Phantom JS
-* grunt browser-test : Starts a server on localhost:8000, which can be used to run the Jasmine tests in the browser
-* grunt coverage : Generates code coverage statistics
-* grunt lint : Runs js-lint and coffeelint
+* grunt build : Generate a minified and uglified artifact under the dist folder
 * grunt doc : Generates project documentation
 
-## Is it any good?
-Yes!
 
 ## License
 Copyright 2013-2015 Hewlett-Packard Development Company, L.P.
