@@ -2,13 +2,13 @@
  * Created by avidan on 07-05-15.
  */
 angular
-    .module('iod-client')
+    .module('hod-client')
     .factory('iodSearchService', IodSearchService);
 
-IodSearchService.$inject = ['$log', '$q', 'iodHttpService'];
+IodSearchService.$inject = ['$log', '$q', 'hodHttpService'];
 
 /* @ngInject */
-function IodSearchService($log, $q, iodHttpService) {
+function IodSearchService($log, $q, hodHttpService) {
     var SEARCH_CONSTANTS = {
         MAX_PAGE_RESULTS: 10,
         ABSOLUTE_MAX_RESULTS: 20
@@ -55,14 +55,14 @@ function IodSearchService($log, $q, iodHttpService) {
             queryParams.append({'min_date': date});
         }
 
-        return iodHttpService.doApiGet('querytextindex/v1', queryParams)
+        return hodHttpService.doApiGet('querytextindex/v1', queryParams)
     }
 
     function retrieveIndexFields(indexName) {
         var params = new ReqQueryParams();
         params.append({index: indexName});
         params.append({group_fields_by_type: true});
-        return iodHttpService.doApiGet("textindex/query/fields/v1", params);
+        return hodHttpService.doApiGet("textindex/query/fields/v1", params);
     }
 
     function findRelatedConcepts(text, index) {
@@ -71,7 +71,7 @@ function IodSearchService($log, $q, iodHttpService) {
         if (index) {
             params.append({indexes :index});
         }
-        return iodHttpService.doApiGet('findrelatedconcepts/v1', params);
+        return hodHttpService.doApiGet('findrelatedconcepts/v1', params);
     }
 
     function isQueryPhraseValid(text, page) {
@@ -85,7 +85,7 @@ function IodSearchService($log, $q, iodHttpService) {
     }
 
     function listQueryProfiles() {
-        return iodHttpService.doApiGet('queryprofile/v1');
+        return hodHttpService.doApiGet('queryprofile/v1');
     }
 
     function getQueryResultsPageSize(){

@@ -32,7 +32,7 @@ describe('IOD-HTTP-Factory Test ', function () {
 	var SYNC_PREFIX = {SYNC: 'sync', ASYNC: 'async'}
 
 
-	beforeEach(angular.mock.module('iod-client'));
+	beforeEach(angular.mock.module('hod-client'));
 
 	beforeEach(module(function ($provide) {
 		logMock = jasmine.createSpyObj('logMock', ['debug', 'error']);
@@ -40,12 +40,12 @@ describe('IOD-HTTP-Factory Test ', function () {
 	}));
 
 	beforeEach(function () {
-		inject(function ($rootScope, _$q_, _$httpBackend_, iodHttpService) {
+		inject(function ($rootScope, _$q_, _$httpBackend_, hodHttpService) {
 			rootScope = $rootScope;
 			scope = rootScope.$new();
 			$q = _$q_;
 			$httpBackend = _$httpBackend_;
-			serviceUnderTest = iodHttpService;
+			serviceUnderTest = hodHttpService;
 		})
 	});
 

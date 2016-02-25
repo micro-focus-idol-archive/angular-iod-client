@@ -2,9 +2,9 @@
 /**
  *
  * @ngdoc service
- * @name iod-client.iodHttpService
+ * @name hod-client.hodHttpService
  * @description
- * # iodHttpService
+ * # hodHttpService
  * Wraps $http to create API calls to HOD
  *
  *
@@ -24,13 +24,13 @@
  * For more information please see https://dev.havenondemand.com/docs/AsynchronousAPI.htm
  */
 angular
-	.module('iod-client')
-	.factory('iodHttpService', IodHttpService);
+	.module('hod-client')
+	.factory('hodHttpService', HodHttpService);
 
-IodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService'];
+HodHttpService.$inject = ['$http', '$log', 'iodEnvConfigService'];
 
 /* @ngInject */
-function IodHttpService($http, $log, iodEnvConfigService) {
+function HodHttpService($http, $log, iodEnvConfigService) {
 	var that = this;
 	that.sessionToken = null;
 
@@ -57,8 +57,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#doInfoGet
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#doInfoGet
+	 * @methodOf hod-client.hodHttpService
 	 * @description Do a HTTP GET call to the specified URL with an INFO prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API
@@ -81,8 +81,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#doDiscoveryGet
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#doDiscoveryGet
+	 * @methodOf hod-client.hodHttpService
 	 * @description Do a HTTP GET call to the specified URL with a DISCOVERY prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API
@@ -105,8 +105,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#apiGet
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#apiGet
+	 * @methodOf hod-client.hodHttpService
 	 * @description Do a HTTP GET call to the specified URL with an API prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API
@@ -134,8 +134,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#apiPost
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#apiPost
+	 * @methodOf hod-client.hodHttpService
 	 * @description Do a HTTP POST request to the specified URL with an API prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API
@@ -162,8 +162,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#apiPost
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#apiPost
+	 * @methodOf hod-client.hodHttpService
 	 * @description Submit a HTTP POST request to to the specified URL with an API prefix, the request is done without any validation on the request body data to allow submitting calls without the  $httpProvider default configurations.
 	 *
 	 * @param {string} url the URL suffix to attach to the api.idolondemand prefix
@@ -204,8 +204,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#apiPut
-	 * @methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#apiPut
+	 * @methodOf hod-client.hodHttpService
 	 * @description Do a HTTP PUT request to the specified URL with an API prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API
@@ -231,8 +231,8 @@ function IodHttpService($http, $log, iodEnvConfigService) {
 
 	/**
 	 * @ngdoc
-	 * @name iod-client.iodHttpService#apiDelete
-	 *@methodOf iod-client.iodHttpService
+	 * @name hod-client.hodHttpService#apiDelete
+	 *@methodOf hod-client.hodHttpService
 	 * @description Do a HTTP DELETE request to the specified URL with an API prefix to the call
 	 *
 	 * @param {string} url Relative url to the wanted API

@@ -6,11 +6,11 @@ describe('Iod-Info-Service', function () {
         rootScope,
         $q,
         $logMock,
-        iodHttpServiceMock,
+        hodHttpServiceMock,
         serviceUnderTest;
 
 
-    beforeEach(angular.mock.module("iod-client"));
+    beforeEach(angular.mock.module("hod-client"));
 
     beforeEach(module(function ($provide) {
         $logMock = jasmine.createSpyObj('logMock', ['']);
@@ -24,8 +24,8 @@ describe('Iod-Info-Service', function () {
     }));
 
     beforeEach(module(function ($provide) {
-        iodHttpServiceMock = jasmine.createSpyObj('iodHttpService', ['doInfoGet']);
-        $provide.value('iodHttpService', iodHttpServiceMock);
+        hodHttpServiceMock = jasmine.createSpyObj('hodHttpService', ['doInfoGet']);
+        $provide.value('hodHttpService', hodHttpServiceMock);
 
     }));
 
@@ -50,12 +50,12 @@ describe('Iod-Info-Service', function () {
 
         it('should call project\'s quota', function(){
             serviceUnderTest.getProjectQuotas();
-            expect(iodHttpServiceMock.doInfoGet).toHaveBeenCalledWith('quota/project/');
+            expect(hodHttpServiceMock.doInfoGet).toHaveBeenCalledWith('quota/project/');
         });
 
         it('should call project\'s index flavors quota', function(){
             serviceUnderTest.getIndexFlavorsQuota();
-            expect(iodHttpServiceMock.doInfoGet).toHaveBeenCalledWith('quota/indexflavors/');
+            expect(hodHttpServiceMock.doInfoGet).toHaveBeenCalledWith('quota/indexflavors/');
         });
 
     })

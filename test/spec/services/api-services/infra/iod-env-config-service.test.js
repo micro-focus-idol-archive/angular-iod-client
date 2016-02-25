@@ -9,7 +9,7 @@ describe('', function () {
 		$logMock,
 		serviceUnderTest;
 
-	beforeEach(angular.mock.module("iod-client"));
+	beforeEach(angular.mock.module("hod-client"));
 
 	beforeEach(module(function ($provide) {
 		$logMock = jasmine.createSpyObj('logMock', ['']);

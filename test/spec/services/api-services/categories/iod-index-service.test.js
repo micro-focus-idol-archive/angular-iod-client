@@ -6,16 +6,16 @@ describe('IOD-Index-Service test', function () {
     var scope,
         rootScope,
         $q,
-        iodHttpServiceMock,
+        hodHttpServiceMock,
         $logMock,
         serviceUnderTest;
 
-    beforeEach(angular.mock.module("iod-client"));
+    beforeEach(angular.mock.module("hod-client"));
 
-    beforeEach(module("iod-client", function ($provide) {
-        iodHttpServiceMock = jasmine.createSpyObj('iodHttpService', ['']);
+    beforeEach(module("hod-client", function ($provide) {
+        hodHttpServiceMock = jasmine.createSpyObj('hodHttpService', ['']);
         $logMock = jasmine.createSpyObj('$logMock', ['getInstance', 'debug'])
-        $provide.value('iodHttpService', iodHttpServiceMock);
+        $provide.value('hodHttpService', hodHttpServiceMock);
         $provide.value('$log', $logMock);
     }));
 
@@ -29,8 +29,8 @@ describe('IOD-Index-Service test', function () {
         }));
 
     beforeEach(function () {
-        iodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
-        iodHttpServiceMock.doApiPost = createIODConnectorMockSpyFunction($q, "doApiGet", {});
+        hodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
+        hodHttpServiceMock.doApiPost = createIODConnectorMockSpyFunction($q, "doApiGet", {});
     });
 
     var INDEX_CONSTANTS = {
@@ -67,7 +67,7 @@ describe('IOD-Index-Service test', function () {
                 var indexName = 'foo'
                 serviceUnderTest.createIndex(indexName);
                 var wantedData = new ReqBodyData()
-                expect(iodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
+                expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
             });
 
 
@@ -89,7 +89,7 @@ describe('IOD-Index-Service test', function () {
                     parametric_fields: parametricFields,
                     expiretime: experationTime
                 })
-                expect(iodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
+                expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
             });
         });
 
@@ -98,7 +98,7 @@ describe('IOD-Index-Service test', function () {
             it('should call the index status with the name concated', function () {
                 var indexName = 'foo';
                 serviceUnderTest.indexStatus(indexName);
-                expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('textindex/' + indexName + '/status/v1')
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('textindex/' + indexName + '/status/v1')
             })
         });
 
@@ -111,7 +111,7 @@ describe('IOD-Index-Service test', function () {
                     flavor: INDEX_CONSTANTS.INDEX_FLAVORS.STANDARD
                 })
 
-                expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1', wantedData)
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1', wantedData)
             })
         });
 
@@ -120,7 +120,7 @@ describe('IOD-Index-Service test', function () {
             it('should call the retrieveResourcesList', function () {
                 serviceUnderTest.retrieveResourcesList();
 
-                expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1')
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1')
             })
         });
 
@@ -130,7 +130,7 @@ describe('IOD-Index-Service test', function () {
 
 
                 beforeEach(function () {
-                    iodHttpServiceMock.doApiPostWithoutDataValidation = createIODConnectorMockSpyFunction($q, 'doApiPostWithoutDataValidation', {})
+                    hodHttpServiceMock.doApiPostWithoutDataValidation = createIODConnectorMockSpyFunction($q, 'doApiPostWithoutDataValidation', {})
                 });
 
                 it('should call the iod-http-service doApiPostWithoutDataValidation method', function () {
@@ -151,7 +151,7 @@ describe('IOD-Index-Service test', function () {
                         headers: {'Content-Type': undefined}
                     });
 
-                    expect(iodHttpServiceMock.doApiPostWithoutDataValidation).toHaveBeenCalledWith(postUrlSuffix, fd, null, reqConfig);
+                    expect(hodHttpServiceMock.doApiPostWithoutDataValidation).toHaveBeenCalledWith(postUrlSuffix, fd, null, reqConfig);
                     scope.$apply();
                     expect(onSuccess).toHaveBeenCalled();
                     expect(onError).not.toHaveBeenCalled();
@@ -169,7 +169,7 @@ describe('IOD-Index-Service test', function () {
                     var fd = new FormData();
                     fd.append('file', file);
 
-                    expect(iodHttpServiceMock.doApiPostWithoutDataValidation).not.toHaveBeenCalled();
+                    expect(hodHttpServiceMock.doApiPostWithoutDataValidation).not.toHaveBeenCalled();
                     scope.$apply();
                     expect(onSuccess).not.toHaveBeenCalled();
                     expect(onError).toHaveBeenCalled();
@@ -180,7 +180,7 @@ describe('IOD-Index-Service test', function () {
             describe('when http call returns error', function () {
 
                 beforeEach(function () {
-                    iodHttpServiceMock.doApiPostWithoutDataValidation = createIODConnectorMockSpyFunctionThatFails($q, 'doApiPostWithoutDataValidation', {})
+                    hodHttpServiceMock.doApiPostWithoutDataValidation = createIODConnectorMockSpyFunctionThatFails($q, 'doApiPostWithoutDataValidation', {})
                 });
 
                 it('should call the iod-http-service doApiPostWithoutDataValidation method', function () {
@@ -196,7 +196,7 @@ describe('IOD-Index-Service test', function () {
                     var fd = new FormData();
                     fd.append('file', file);
 
-                    expect(iodHttpServiceMock.doApiPostWithoutDataValidation).toHaveBeenCalledWith(postUrlSuffix, fd, null, reqConfig);
+                    expect(hodHttpServiceMock.doApiPostWithoutDataValidation).toHaveBeenCalledWith(postUrlSuffix, fd, null, reqConfig);
                     scope.$apply();
                     expect(onSuccess).not.toHaveBeenCalled();
                     expect(onError).toHaveBeenCalled();

@@ -17,14 +17,14 @@ This repo uses git-flow. develop is the development branch. master is the last k
 * Include the package js file in your HTML file
 * Add `iod-client` to your main module dependency list
 * Set up your API-KEY to use on the calls using `iodEnvConfigService.setApiKey()`
-* Use `iodHttpService` for the different HTTP calls 
+* Use `hodHttpService` for the different HTTP calls 
 
 ## Services 
 
 ### iodEnvConfigService
 This service is essential for the HOD tenant configurations. Calling `setApiKey()` with you API-KEY     
 
-### iodHttpService
+### hodHttpService
 Expose the different HTTP method 
 
 ## Grunt tasks

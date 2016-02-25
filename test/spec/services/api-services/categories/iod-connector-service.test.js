@@ -6,15 +6,15 @@ describe('IOD-Connector-Service Test', function () {
 	var scope,
 		rootScope,
 		$q,
-		iodHttpServiceMock,
+		hodHttpServiceMock,
 		logMock,
 		serviceUnderTest;
 
-	beforeEach(angular.mock.module("iod-client"));
+	beforeEach(angular.mock.module("hod-client"));
 
-	beforeEach(module("iod-client", function ($provide) {
-		iodHttpServiceMock = jasmine.createSpyObj('iodHttpService', ['']);
-		$provide.value('iodHttpService', iodHttpServiceMock);
+	beforeEach(module("hod-client", function ($provide) {
+		hodHttpServiceMock = jasmine.createSpyObj('hodHttpService', ['']);
+		$provide.value('hodHttpService', hodHttpServiceMock);
 		logMock = jasmine.createSpyObj('logMock', ['debug','error']);
 		$provide.value('$log', logMock);
 	}));
@@ -28,8 +28,8 @@ describe('IOD-Connector-Service Test', function () {
 		}));
 
 	beforeEach(function () {
-		iodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
-		iodHttpServiceMock.doApiPost = createIODConnectorMockSpyFunction($q, "doApiPost", {});
+		hodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
+		hodHttpServiceMock.doApiPost = createIODConnectorMockSpyFunction($q, "doApiPost", {});
 	});
 
 	describe('validate the service init', function () {
@@ -84,7 +84,7 @@ describe('IOD-Connector-Service Test', function () {
 						index: indexName
 					}
 				});
-				expect(iodHttpServiceMock.doApiPost).toHaveBeenCalledWith('createconnector/v1', wantedConfig);
+				expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('createconnector/v1', wantedConfig);
 			});
 		});
 
@@ -107,7 +107,7 @@ describe('IOD-Connector-Service Test', function () {
 						index: indexName
 					}
 				});
-				expect(iodHttpServiceMock.doApiPost).toHaveBeenCalledWith('createconnector/v1', wantedConfig);
+				expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('createconnector/v1', wantedConfig);
 			})
 		})
 
@@ -121,7 +121,7 @@ describe('IOD-Connector-Service Test', function () {
 				connector:connectorName
 			})
 			serviceUnderTest.deleteConnector(connectorName)
-			expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('deleteconnector/v1', wantedReqQueryParams)
+			expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('deleteconnector/v1', wantedReqQueryParams)
 		})
 	})
 

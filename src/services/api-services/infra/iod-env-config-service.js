@@ -2,7 +2,7 @@
  * Created by avidan on 25-05-15.
  */
 angular
-	.module('iod-client')
+	.module('hod-client')
 	.factory('iodEnvConfigService', IodEnvConfigService);
 
 IodEnvConfigService.$inject = ['$log'];

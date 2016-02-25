@@ -9,13 +9,13 @@
  * For more information about connectors see [Connectors](https://dev.havenondemand.com/docs/Connectors.html)
  */
 angular
-	.module('iod-client')
+	.module('hod-client')
 	.factory('iodConnectorService', IodConnectorService);
 
-IodConnectorService.$inject = ['iodHttpService', '$log'];
+IodConnectorService.$inject = ['hodHttpService', '$log'];
 
 /* @ngInject */
-function IodConnectorService(iodHttpService, $log) {
+function IodConnectorService(hodHttpService, $log) {
 	var CONNECTOR_FLAVORS = {
 		WEB: 'web_cloud',
 		FS: 'filesystem_onsite',
@@ -83,7 +83,7 @@ function IodConnectorService(iodHttpService, $log) {
 		if (optionalParams) {
 			params.append(params.append({"destination": dest}));
 		}
-		return iodHttpService.doApiPost(connectorResUrl, params);
+		return hodHttpService.doApiPost(connectorResUrl, params);
 	}
 
 	/**
@@ -98,7 +98,7 @@ function IodConnectorService(iodHttpService, $log) {
 		$log.debug("deleting connector {0}", [connectorName]);
 		var connectorResUrl = 'deleteconnector/v1';
 		var reqParams = new ReqQueryParams({connector: connectorName})
-		return iodHttpService.doApiGet(connectorResUrl, reqParams);
+		return hodHttpService.doApiGet(connectorResUrl, reqParams);
 	}
 
 	/**
@@ -118,7 +118,7 @@ function IodConnectorService(iodHttpService, $log) {
 		params.append({"output": "config_attributes"});
 		params.append(optionalParams)
 		var connectorResUrl = 'retrieveconfig/v1';
-		return iodHttpService.doApiGet(connectorResUrl, params);
+		return hodHttpService.doApiGet(connectorResUrl, params);
 	}
 
 	/**
@@ -137,7 +137,7 @@ function IodConnectorService(iodHttpService, $log) {
 		var params = new ReqQueryParams();
 		params.append({"connector": connectorName});
 		params.append(optionalParams)
-		return iodHttpService.doApiGet(connectorResUrl, params);
+		return hodHttpService.doApiGet(connectorResUrl, params);
 	}
 
 
@@ -168,7 +168,7 @@ function IodConnectorService(iodHttpService, $log) {
 		if(optionalParams){
 			bodyParams.append(optionalParams)
 		}
-		return iodHttpService.doApiPost(connectorResUrl, bodyParams);
+		return hodHttpService.doApiPost(connectorResUrl, bodyParams);
 	}
 
 	/**
@@ -188,7 +188,7 @@ function IodConnectorService(iodHttpService, $log) {
 		if (optionalParams) {
 			params.append(optionalParams);
 		}
-		return iodHttpService.doApiPost(connectorResUrl, params);
+		return hodHttpService.doApiPost(connectorResUrl, params);
 	}
 
 	/**
@@ -203,7 +203,7 @@ function IodConnectorService(iodHttpService, $log) {
 		var connectorResUrl = '/stopconnector/v1';
 		var params = new ReqBodyData();
 		params.append({connector:connectorName})
-		return iodHttpService.doApiPost(connectorResUrl,params);
+		return hodHttpService.doApiPost(connectorResUrl,params);
 	}
 
 	/**
@@ -218,7 +218,7 @@ function IodConnectorService(iodHttpService, $log) {
 		var connectorResUrl = 'cancelconnectorschedule/v1';
 		var params = new ReqBodyData();
 		params.append({connector:connectorName})
-		return iodHttpService.doApiPost(connectorResUrl,params);
+		return hodHttpService.doApiPost(connectorResUrl,params);
 	}
 
 	/**
@@ -235,7 +235,7 @@ function IodConnectorService(iodHttpService, $log) {
 		if(optionalParams){
 			params.append(optionalParams)
 		}
-		return iodHttpService.doApiGet(connectorResUrl,params);
+		return hodHttpService.doApiGet(connectorResUrl,params);
 	}
 
 }

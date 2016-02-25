@@ -2,13 +2,13 @@
  * Created by avidan on 12-05-15.
  */
 angular
-    .module('iod-client')
+    .module('hod-client')
     .factory('iodDiscoveryService', IodDiscoveryService);
 
-IodDiscoveryService.$inject = ['$log','iodHttpService'];
+IodDiscoveryService.$inject = ['$log','hodHttpService'];
 
 /* @ngInject */
-function IodDiscoveryService($log,iodHttpService) {
+function IodDiscoveryService($log,hodHttpService) {
 
 
     var service = {
@@ -24,7 +24,7 @@ function IodDiscoveryService($log,iodHttpService) {
         if (flavors) {
             params.append({flavors: flavors})
         }
-        return iodHttpService.doDiscoveryGet('downloadLinks', params);
+        return hodHttpService.doDiscoveryGet('downloadLinks', params);
     }
 
 

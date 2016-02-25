@@ -6,14 +6,14 @@ describe('IOD-Search-Service test', function () {
     var scope,
         rootScope,
         $q,
-        iodHttpServiceMock,
+        hodHttpServiceMock,
         serviceUnderTest;
 
-    beforeEach(angular.mock.module("iod-client"));
+    beforeEach(angular.mock.module("hod-client"));
 
-    beforeEach(module("iod-client", function ($provide) {
-        iodHttpServiceMock = jasmine.createSpyObj('iodHttpService', ['']);
-        $provide.value('iodHttpService', iodHttpServiceMock);
+    beforeEach(module("hod-client", function ($provide) {
+        hodHttpServiceMock = jasmine.createSpyObj('hodHttpService', ['']);
+        $provide.value('hodHttpService', hodHttpServiceMock);
     }));
 
 
@@ -26,7 +26,7 @@ describe('IOD-Search-Service test', function () {
         }));
 
     beforeEach(function () {
-        iodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
+        hodHttpServiceMock.doApiGet = createIODConnectorMockSpyFunction($q, "doApiGet", {});
     })
 
     var SEARCH_CONSTANT = {
@@ -63,7 +63,7 @@ describe('IOD-Search-Service test', function () {
                 })
 
             serviceUnderTest.queryTextIndex(queryText);
-            expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
+            expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
         });
 
         it('should call the queryTextIndex with one index and validate flow', function () {
@@ -85,7 +85,7 @@ describe('IOD-Search-Service test', function () {
                 })
 
             serviceUnderTest.queryTextIndex(queryText, 0,indexName);
-            expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
+            expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
         });
 
         it('should call the queryTextIndex with index array and validate flow', function () {
@@ -107,7 +107,7 @@ describe('IOD-Search-Service test', function () {
                 })
 
             serviceUnderTest.queryTextIndex(queryText, 0,indexName);
-            expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
+            expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
         });
 
         it('should call the queryTextIndex with all of the arguments and validate flow', function () {
@@ -133,7 +133,7 @@ describe('IOD-Search-Service test', function () {
                 })
 
             serviceUnderTest.queryTextIndex(queryText, 0,indexName, sort,date);
-            expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
+            expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
         });
 
         it('should call the queryTextIndex and with paging validate simple flow', function () {
@@ -157,7 +157,7 @@ describe('IOD-Search-Service test', function () {
                 })
 
             serviceUnderTest.queryTextIndex(queryText, page);
-            expect(iodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
+            expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('querytextindex/v1', wantedQueryParams)
         });
     });
 

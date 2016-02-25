@@ -6,11 +6,11 @@ describe('Iod-Discovery-Service', function () {
         rootScope,
         $q,
         $logMock,
-        iodHttpServiceMock,
+        hodHttpServiceMock,
         serviceUnderTest;
 
 
-    beforeEach(angular.mock.module("iod-client"));
+    beforeEach(angular.mock.module("hod-client"));
 
     beforeEach(module(function ($provide) {
         $logMock = jasmine.createSpyObj('logMock', ['']);
@@ -24,8 +24,8 @@ describe('Iod-Discovery-Service', function () {
     }));
 
     beforeEach(module(function ($provide) {
-        iodHttpServiceMock = jasmine.createSpyObj('iodHttpService', ['doDiscoveryGet']);
-        $provide.value('iodHttpService', iodHttpServiceMock);
+        hodHttpServiceMock = jasmine.createSpyObj('hodHttpService', ['doDiscoveryGet']);
+        $provide.value('hodHttpService', hodHttpServiceMock);
 
     }));
 
@@ -50,7 +50,7 @@ describe('Iod-Discovery-Service', function () {
         it('should call getConnectorAgentDownloadLinks', function(){
             serviceUnderTest.getConnectorAgentDownloadLinks();
             var params = new ReqQueryParams();
-            expect(iodHttpServiceMock.doDiscoveryGet).toHaveBeenCalledWith('downloadLinks',params);
+            expect(hodHttpServiceMock.doDiscoveryGet).toHaveBeenCalledWith('downloadLinks',params);
         });
 
         it('should call getConnectorAgentDownloadLinks with a flavor', function(){
@@ -58,7 +58,7 @@ describe('Iod-Discovery-Service', function () {
             serviceUnderTest.getConnectorAgentDownloadLinks(flavor);
             var params = new ReqQueryParams();
             params.append({flavors:flavor});
-            expect(iodHttpServiceMock.doDiscoveryGet).toHaveBeenCalledWith('downloadLinks',params);
+            expect(hodHttpServiceMock.doDiscoveryGet).toHaveBeenCalledWith('downloadLinks',params);
         });
 
     })

@@ -1,12 +1,11 @@
 angular
-    .module('iod-client')
+    .module('hod-client')
     .factory('iodStatisticsService', IodStatisticsService);
 
-IodStatisticsService.$inject = ['$log','iodHttpService'];
+IodStatisticsService.$inject = ['$log','hodHttpService'];
 
 /* @ngInject */
-function IodStatisticsService($log,iodHttpService) {
-    $log = $log.getInstance('IodStatisticsService');
+function IodStatisticsService($log,hodHttpService) {
 
     var service = {
         getApplicationUsers:getApplicationUsers,
@@ -18,7 +17,7 @@ function IodStatisticsService($log,iodHttpService) {
     ////////////////
 
     function getApplicationUsers(){
-        return iodHttpService.doApiGet('application/user/v1');
+        return hodHttpService.doApiGet('application/user/v1');
     }
 
     function getIndexDocTypesCount(indexName) {
@@ -28,6 +27,6 @@ function IodStatisticsService($log,iodHttpService) {
         queryParams.append({document_count: true});
 
         $log.debug('Calling getIndexDocTypesCount');
-        return iodHttpService.doApiGet('textindex/query/parametricvalues/v1', queryParams);
+        return hodHttpService.doApiGet('textindex/query/parametricvalues/v1', queryParams);
     }
 }

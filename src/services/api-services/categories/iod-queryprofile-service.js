@@ -2,14 +2,13 @@
  * Created by avidan on 11-05-15.
  */
 angular
-    .module('iod-client')
+    .module('hod-client')
     .factory('iodQueryProfileService', IodQueryProfileService);
 
-IodQueryProfileService.$inject = ['$log', 'iodHttpService'];
+IodQueryProfileService.$inject = ['$log', 'hodHttpService'];
 
 /* @ngInject */
-function IodQueryProfileService($log, iodHttpService) {
-    $log = $log.getInstance('IodQueryProfileService');
+function IodQueryProfileService($log, hodHttpService) {
 
     var service = {
         createQueryProfile: createQueryProfile,
@@ -39,24 +38,24 @@ function IodQueryProfileService($log, iodHttpService) {
         var data = new ReqBodyData();
         data.append(config);
 
-        return iodHttpService.doApiPost(queryProfileResrUrl, data);
+        return hodHttpService.doApiPost(queryProfileResrUrl, data);
     }
 
     function deleteQueryProfile(profileName) {
         var queryProfileResrUrl = 'queryprofile/' + encodeURIComponent(profileName) + '/v1';
         var data = new ReqBodyData();
-        return iodHttpService.doApiDelete(queryProfileResrUrl, data);
+        return hodHttpService.doApiDelete(queryProfileResrUrl, data);
     }
 
     function updateQueryProfile(profileName) {
         var queryProfileResrUrl = 'queryprofile/' + encodeURIComponent(profileName) + '/v1';
         var data = new ReqBodyData();
-        return iodHttpService.doApiPut(queryProfileResrUrl, data);
+        return hodHttpService.doApiPut(queryProfileResrUrl, data);
     }
 
     function retrieveQueryProfile(profileName) {
         var queryProfileResrUrl = 'queryprofile/' + encodeURIComponent(profileName) + '/v1';
-        return iodHttpService.doApiGet(queryProfileResrUrl);
+        return hodHttpService.doApiGet(queryProfileResrUrl);
     }
 
 

@@ -2,13 +2,13 @@
  * Created by avidan on 01-05-15.
  */
 angular
-    .module('iod-client')
+    .module('hod-client')
     .factory('iodIndexService', IodIndexService);
 
-IodIndexService.$inject = ['$log', '$q', 'iodHttpService'];
+IodIndexService.$inject = ['$log', '$q', 'hodHttpService'];
 
 /* @ngInject */
-function IodIndexService($log, $q, iodHttpService) {
+function IodIndexService($log, $q, hodHttpService) {
 
     $log = $log.getInstance("IodIndexService");
 
@@ -53,14 +53,14 @@ function IodIndexService($log, $q, iodHttpService) {
             expiretime: experationTime
         });
 
-        return iodHttpService.doApiPost(indexResrUrl, data);
+        return hodHttpService.doApiPost(indexResrUrl, data);
     }
 
     function deleteIndex(indexName) {
         var deferd = $q.defer();
         {
             var indexResrUrl = 'textindex/' + encodeURIComponent(indexName) + '/v1'
-            iodHttpService.doApiDelete(indexResrUrl).success(function (data) {
+            hodHttpService.doApiDelete(indexResrUrl).success(function (data) {
                 var confirmationCode = data.confirm;
                 $log.debug("confirming deleting text index {0}", [indexName]);
                 confirmDeleteTextIndex(indexName, confirmationCode).success(function (response) {
@@ -83,7 +83,7 @@ function IodIndexService($log, $q, iodHttpService) {
         params.append({confirm: confirmation});
 
         var indexResrUrl = 'textindex/' + encodeURIComponent(indexName) + '/v1'
-        return iodHttpService.doApiDelete(indexResrUrl, params, null);
+        return hodHttpService.doApiDelete(indexResrUrl, params, null);
     }
 
     function restoreIndex() {
@@ -108,7 +108,7 @@ function IodIndexService($log, $q, iodHttpService) {
                     headers: {'Content-Type': undefined}
                 });
 
-                iodHttpService.doApiPostWithoutDataValidation(indexResrUrl, fd, null, reqConfig)
+                hodHttpService.doApiPostWithoutDataValidation(indexResrUrl, fd, null, reqConfig)
                     .success(function (data) {
                         deferred.resolve(data);
                     }).error(function (errorResponse) {
@@ -128,17 +128,17 @@ function IodIndexService($log, $q, iodHttpService) {
 
     function indexStatus(indexName) {
         var indexResrUrl = 'textindex/' + encodeURIComponent(indexName) + '/status/v1'
-        return iodHttpService.doApiGet(indexResrUrl)
+        return hodHttpService.doApiGet(indexResrUrl)
     }
 
     function retrieveIndexesList() {
         var params = new ReqQueryParams();
         params.append({"type": INDEX_CONSTANTS.INDEX_TYPES.INDEX});
         params.append({"flavor": INDEX_CONSTANTS.INDEX_FLAVORS.STANDARD});
-        return iodHttpService.doApiGet('resource/v1', params);
+        return hodHttpService.doApiGet('resource/v1', params);
     }
 
     function retrieveResourcesList() {
-        return iodHttpService.doApiGet('resource/v1');
+        return hodHttpService.doApiGet('resource/v1');
     }
 }

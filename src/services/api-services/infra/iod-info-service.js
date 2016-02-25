@@ -2,15 +2,13 @@
  * Created by avidan on 11-05-15.
  */
 angular
-	.module('iod-client')
+	.module('hod-client')
 	.factory('iodInfoService', IodInfoService);
 
-IodInfoService.$inject = ['$log', 'iodHttpService'];
+IodInfoService.$inject = ['$log', 'hodHttpService'];
 
 /* @ngInject */
-function IodInfoService($log, iodHttpService) {
-	$log = $log.getInstance('IodInfoService');
-
+function IodInfoService($log, hodHttpService) {
 	var service = {
 		getProjectQuotas: getProjectQuotas,
 		getIndexFlavorsQuota: getIndexFlavorsQuota
@@ -21,11 +19,11 @@ function IodInfoService($log, iodHttpService) {
 	////////////////
 
 	function getProjectQuotas() {
-		return iodHttpService.doInfoGet('quota/project/');
+		return hodHttpService.doInfoGet('quota/project/');
 	}
 
 	function getIndexFlavorsQuota() {
-		return iodHttpService.doInfoGet('quota/indexflavors/');
+		return hodHttpService.doInfoGet('quota/indexflavors/');
 	}
 
 
