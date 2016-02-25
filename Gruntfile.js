@@ -307,5 +307,5 @@ module.exports = function (grunt) {
 		'build'
 	]);
 
-	grunt.registerTask('buildDocs',['ngdocs', 'connect:docs'])
+	grunt.registerTask('docs',['ngdocs', 'connect:docs'])
 };
