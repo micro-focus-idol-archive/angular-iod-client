@@ -1,0 +1,49 @@
+<h1><code ng:non-bindable="">hodIndexService</code>
+<div><span class="hint">service in module <code ng:non-bindable="">hod-client</code>
+</span>
+</div>
+</h1>
+<div><h2 id="description">Description</h2>
+<div class="description"><div class="hod-client-hodindexservice-page"><h3 id="description_hodindexservice">hodIndexService</h3>
+<p>Wraps API calls for the HOD&#39;s Text Index APIs.</p>
+<p>For more information about connectors see <a href="https://dev.havenondemand.com/docs/HowTo_Index.html">Connectors</a></p>
+</div></div>
+<div class="member method"><h2 id="methods">Methods</h2>
+<ul class="methods"><li><h3 id="methods_addtotextindex">addToTextIndex(indexName, file, requestConfigObj)</h3>
+<div class="addtotextindex"><h5 id="methods_addtotextindex_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>indexName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-addtotextindex-page"><p>The name of the index</p>
+</div></td></tr><tr><td>file</td><td><a href="" class="label type-hint type-hint-file">File</a></td><td><div class="hod-client-hodindexservice-addtotextindex-page"><p>The file to upload</p>
+</div></td></tr><tr><td>requestConfigObj <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-json">json</a></td><td><div class="hod-client-hodindexservice-addtotextindex-page"><p>additional optional configurations as describe in the API page</p>
+</div></td></tr></tbody></table><h5 id="methods_addtotextindex_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-addtotextindex-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_createindex">createIndex(indexName, indexFlavor, indexDesc, indexFields, parametricFields, expirationTime)</h3>
+<div class="createindex"><h5 id="methods_createindex_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>indexName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>The name of the index to create.</p>
+</div></td></tr><tr><td>indexFlavor</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>The configuration flavor of the text index. See <a href="https://dev.havenondemand.com/docs/IndexFlavors.html">Index Flavors</a>. Default value: explorer.</p>
+</div></td></tr><tr><td>indexDesc <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>A brief description of the index.</p>
+</div></td></tr><tr><td>indexFields <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-json">json</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>Custom fields that you want to define with the Index field type. Index fields contain document content, which receives linguistic processing for keyword and conceptual search. This parameter is relevant only for Standard, Custom Fields, Explorer and Jumbo flavors.</p>
+</div></td></tr><tr><td>parametricFields <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-json">json</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>Custom fields that you want to define with the Parametric field type. Parametric fields contain values that you want to use for search filtering and exact matches. This parameter is relevant only for Standard, Categorization, Custom Fields, Explorer and Jumbo flavors.</p>
+</div></td></tr><tr><td>expirationTime <div><em>(optional)</em></div></td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>Custom fields that you want to define with the Expire Date field type. Expire Date fields contain a date that you want to use to automatically expire the document. Expire This parameter is relevant only for the Custom_Fields flavor.</p>
+</div></td></tr></tbody></table><h5 id="methods_createindex_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-createindex-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_deleteindex">deleteIndex(indexName)</h3>
+<div class="deleteindex"><h5 id="methods_deleteindex_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>indexName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-deleteindex-page"><p>The name of the index to delete.</p>
+</div></td></tr></tbody></table><h5 id="methods_deleteindex_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-deleteindex-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_indexstatus">indexStatus(indexName)</h3>
+<div class="indexstatus"><h5 id="methods_indexstatus_parameters">Parameters</h5><table class="variables-matrix table table-bordered table-striped"><thead><tr><th>Param</th><th>Type</th><th>Details</th></tr></thead><tbody><tr><td>indexName</td><td><a href="" class="label type-hint type-hint-string">string</a></td><td><div class="hod-client-hodindexservice-indexstatus-page"><p>The name of the index</p>
+</div></td></tr></tbody></table><h5 id="methods_indexstatus_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-indexstatus-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_retrieveindexeslist">retrieveIndexesList()</h3>
+<div class="retrieveindexeslist"><h5 id="methods_retrieveindexeslist_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-retrieveindexeslist-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+<li><h3 id="methods_retrieveresourceslist">retrieveResourcesList()</h3>
+<div class="retrieveresourceslist"><h5 id="methods_retrieveresourceslist_returns">Returns</h5><table class="variables-matrix"><tr><td><a href="" class="label type-hint type-hint-httppromise">httpPromise</a></td><td><div class="hod-client-hodindexservice-retrieveresourceslist-page"><p>resolve with fetched data, or fails with error description.</p>
+</div></td></tr></table></div>
+</li>
+</ul>
+</div>
+</div>

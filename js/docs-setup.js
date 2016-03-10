@@ -14,6 +14,24 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "hod-client.hodConnectorService",
+      "shortName": "hod-client.hodConnectorService",
+      "type": "service",
+      "moduleName": "hod-client",
+      "shortDescription": "hodConnectorService",
+      "keywords": "additional api apis calls cancelconnectorschedule cancels characters config configobj configuration configurations connector connectorflavor connectorhistory connectorname connectors connectorstatus create createconnector data defining deleteconnector description error existing fails fetched flavor havenondemand history hod hod-client hodconnectorservice html indexname json length maximum object optional optionalparams parameters resolve retrieveconfig returns schedule send service sharepoint specifications start startconnector status stopconnector stops update updateconnector url v1 web wraps"
+    },
+    {
+      "section": "api",
+      "id": "hod-client.hodEnvConfigService",
+      "shortName": "hod-client.hodEnvConfigService",
+      "type": "service",
+      "moduleName": "hod-client",
+      "shortDescription": "hodEnvConfigService",
+      "keywords": "account allow api api-key apikey apis application calls configurations default environment getapikey gethodhost gethodportal havenondemand hod hod-client hodenvconfigservice host html https isenvconfigvalid load management retrieved return service set setapikey sets subdomain true url user valid"
+    },
+    {
+      "section": "api",
       "id": "hod-client.hodHttpService",
       "shortName": "hod-client.hodHttpService",
       "type": "service",
@@ -23,21 +41,12 @@ NG_DOCS={
     },
     {
       "section": "api",
-      "id": "hod-client.infra.hodEnvConfigService",
-      "shortName": "hod-client.infra.hodEnvConfigService",
-      "type": "service",
-      "moduleName": "hod-client.infra",
-      "shortDescription": "hodEnvConfigService",
-      "keywords": "account allow api api-key apikey apis application calls configurations default environment getapikey gethodhost gethodportal havenondemand hod hod-client hodenvconfigservice host html https infra isenvconfigvalid load management retrieved return service set setapikey sets subdomain true url user valid"
-    },
-    {
-      "section": "api",
-      "id": "hod-client.iodConnectorService",
-      "shortName": "hod-client.iodConnectorService",
+      "id": "hod-client.hodIndexService",
+      "shortName": "hod-client.hodIndexService",
       "type": "service",
       "moduleName": "hod-client",
-      "shortDescription": "iodConnectorService",
-      "keywords": "additional api apis calls cancelconnectorschedule cancels characters config configobj configuration configurations connector connectorflavor connectorhistory connectorname connectors connectorstatus create createconnector data defining deleteconnector description error existing fails fetched flavor havenondemand history hod hod-client html indexname iodconnectorservice json length maximum object optional optionalparams parameters resolve retrieveconfig returns schedule send service sharepoint specifications start startconnector status stopconnector stops update updateconnector url v1 web wraps"
+      "shortDescription": "hodIndexService",
+      "keywords": "additional addtotextindex api apis automatically calls categorization conceptual configuration configurations connectors content create createindex custom custom_fields data default define delete deleteindex describe description document error exact expirationtime expire explorer fails fetched field fields file filtering flavor flavors havenondemand hod hod-client hodindexservice html indexdesc indexfields indexflavor indexname indexstatus jumbo keyword linguistic matches optional parameter parametric parametricfields processing receives relevant requestconfigobj resolve retrieveindexeslist retrieveresourceslist search service standard text type upload values wraps"
     }
   ],
   "apis": {
