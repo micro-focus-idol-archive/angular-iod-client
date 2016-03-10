@@ -124,9 +124,9 @@ function HodIndexService($log, $q, hodHttpService) {
 	 * @name hod-client.hodIndexService#addToTextIndex
 	 * @methodOf hod-client.hodIndexService
 	 *
-	 * @param {string} indexName
-	 * @param {file} file
-	 * @param {json=} requestConfigObj
+	 * @param {string} indexName The name of the index
+	 * @param {File} file The file to upload
+	 * @param {json=} requestConfigObj additional optional configurations as describe in the API page
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
 	 */
 	function addToTextIndex(indexName, file, requestConfigObj) {
@@ -170,7 +170,7 @@ function HodIndexService($log, $q, hodHttpService) {
 	 * @name hod-client.hodIndexService#indexStatus
 	 * @methodOf hod-client.hodIndexService
 	 *
-	 * @param {string} indexName
+	 * @param {string} indexName The name of the index
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
 	 */
 	function indexStatus(indexName) {
