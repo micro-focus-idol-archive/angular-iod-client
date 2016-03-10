@@ -59,7 +59,13 @@ describe('', function () {
 		});
 
 		it('isEnvConfigValid should return true for a valid JSON', function () {
+			var mockApiKey = 'aaaa-1234';
+			serviceUnderTest.setApiKey(mockApiKey)
 			expect(serviceUnderTest.isEnvConfigValid()).toBeTruthy();
+		});
+
+		it('isEnvConfigValid should return false for a valid JSON without a valid APIKEY', function () {
+			expect(serviceUnderTest.isEnvConfigValid()).toBeFalsy();
 		});
 
 		it('should return a correct IOD host URL', function () {

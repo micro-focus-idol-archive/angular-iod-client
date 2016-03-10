@@ -20,10 +20,10 @@ describe('IOD-Connector-Service Test', function () {
 	}));
 
 	beforeEach(
-		inject(function ($rootScope, _$q_, iodConnectorService) {
+		inject(function ($rootScope, _$q_, hodConnectorService) {
 			rootScope = $rootScope;
 			scope = rootScope.$new();
-			serviceUnderTest = iodConnectorService;
+			serviceUnderTest = hodConnectorService;
 			$q = _$q_;
 		}));
 

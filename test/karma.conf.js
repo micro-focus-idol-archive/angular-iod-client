@@ -28,6 +28,7 @@ module.exports = function (config) {
             'src/models/http/statistics/statistics-query-params.js',
             'src/iod-client.module.js',
             'src/**/*.js',
+	        'bower_components/underscore/underscore-min.js',
 
             // test code
             'test/spec/**/*.js'

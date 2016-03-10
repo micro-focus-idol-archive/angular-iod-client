@@ -118,7 +118,7 @@ function HodEnvConfigService( $log) {
 	 * @returns {boolean} true if all configurations are valid
 	 */
 	function isEnvConfigValid() {
-		isConfigValid = isConfigValid && _.isDefined(getApiKey())
+		isConfigValid = isConfigValid && !_.isUndefined(getApiKey())
 		return isConfigValid;
 	}
 

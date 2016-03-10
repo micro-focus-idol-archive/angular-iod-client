@@ -1,21 +1,21 @@
 'use strict';
 /**
  * @ngdoc service
- * @name hod-client.iodConnectorService
+ * @name hod-client.hodConnectorService
  * @description
- * # iodConnectorService
+ * # hodConnectorService
  * Wraps API calls for the HOD's Connector APIs.
  *
  * For more information about connectors see [Connectors](https://dev.havenondemand.com/docs/Connectors.html)
  */
 angular
 	.module('hod-client')
-	.factory('iodConnectorService', IodConnectorService);
+	.factory('hodConnectorService', HodConnectorService);
 
-IodConnectorService.$inject = ['hodHttpService', '$log'];
+HodConnectorService.$inject = ['hodHttpService', '$log'];
 
 /* @ngInject */
-function IodConnectorService(hodHttpService, $log) {
+function HodConnectorService(hodHttpService, $log) {
 	var CONNECTOR_FLAVORS = {
 		WEB: 'web_cloud',
 		FS: 'filesystem_onsite',
@@ -45,8 +45,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#createConnector
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#createConnector
+	 * @methodOf hod-client.hodConnectorService
 	 *
 	 * @param {string} connectorFlavor The flavor of the connector to create
 	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
@@ -88,8 +88,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#deleteConnector
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#deleteConnector
+	 * @methodOf hod-client.hodConnectorService
 	 *
 	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
@@ -103,8 +103,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#retrieveConfig
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#retrieveConfig
+	 * @methodOf hod-client.hodConnectorService
 	 *
 	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
 	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
@@ -123,8 +123,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#connectorStatus
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#connectorStatus
+	 * @methodOf hod-client.hodConnectorService
 	 *
 	 * @param {string} connectorName The name of the connector to create. Maximum length of 100 characters.
 	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
@@ -143,8 +143,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#updateConnector
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#updateConnector
+	 * @methodOf hod-client.hodConnectorService
 	 * @description Update existing connector configurations
 	 *
 	 *
@@ -173,8 +173,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#startConnector
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#startConnector
+	 * @methodOf hod-client.hodConnectorService
 	 * @description start existing connector
 
 	 * @param {string} connectorName The name of the connector
@@ -193,8 +193,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#stopConnector
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#stopConnector
+	 * @methodOf hod-client.hodConnectorService
 	 * @description stops a connector schedule.
 	 * @param {string} connectorName The name of the connector
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
@@ -208,8 +208,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#cancelConnectorSchedule
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#cancelConnectorSchedule
+	 * @methodOf hod-client.hodConnectorService
 	 * @description Cancels a connector schedule.
 	 * @param {string} connectorName The name of the connector
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
@@ -223,8 +223,8 @@ function IodConnectorService(hodHttpService, $log) {
 
 	/**
 	 * @ngdoc
-	 * @name hod-client.iodConnectorService#connectorHistory
-	 * @methodOf hod-client.iodConnectorService
+	 * @name hod-client.hodConnectorService#connectorHistory
+	 * @methodOf hod-client.hodConnectorService
 	 * @description Returns connector status history information.
 	 * @param {json=} optionalParams JSON object defining additional optional parameters according to the HOD updateConnector v1 API specifications
 	 * @returns {httpPromise} resolve with fetched data, or fails with error description.
