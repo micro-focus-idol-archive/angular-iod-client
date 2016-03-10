@@ -5,6 +5,15 @@ NG_DOCS={
   "pages": [
     {
       "section": "api",
+      "id": "hod-client",
+      "shortName": "hod-client",
+      "type": "overview",
+      "moduleName": "hod-client",
+      "shortDescription": "This module is a utility client to wrap HavenOnDemand APIs as an Angular.js client",
+      "keywords": "additional angular api apis client documentation havenondemand hod-client js module overview utility wrap"
+    },
+    {
+      "section": "api",
       "id": "hod-client.hodHttpService",
       "shortName": "hod-client.hodHttpService",
       "type": "service",
@@ -14,21 +23,21 @@ NG_DOCS={
     },
     {
       "section": "api",
+      "id": "hod-client.infra.hodEnvConfigService",
+      "shortName": "hod-client.infra.hodEnvConfigService",
+      "type": "service",
+      "moduleName": "hod-client.infra",
+      "shortDescription": "hodEnvConfigService",
+      "keywords": "account allow api api-key apikey apis application calls configurations default environment getapikey gethodhost gethodportal havenondemand hod hod-client hodenvconfigservice host html https infra isenvconfigvalid load management retrieved return service set setapikey sets subdomain true url user valid"
+    },
+    {
+      "section": "api",
       "id": "hod-client.iodConnectorService",
       "shortName": "hod-client.iodConnectorService",
       "type": "service",
       "moduleName": "hod-client",
       "shortDescription": "iodConnectorService",
       "keywords": "additional api apis calls cancelconnectorschedule cancels characters config configobj configuration configurations connector connectorflavor connectorhistory connectorname connectors connectorstatus create createconnector data defining deleteconnector description error existing fails fetched flavor havenondemand history hod hod-client html indexname iodconnectorservice json length maximum object optional optionalparams parameters resolve retrieveconfig returns schedule send service sharepoint specifications start startconnector status stopconnector stops update updateconnector url v1 web wraps"
-    },
-    {
-      "section": "api",
-      "id": "iod-client",
-      "shortName": "iod-client",
-      "type": "overview",
-      "moduleName": "iod-client",
-      "shortDescription": "This module is a utility client to wrap HavenOnDemand APIs as an Angular.js client",
-      "keywords": "additional angular api apis client documentation havenondemand iod-client js module overview utility wrap"
     }
   ],
   "apis": {
