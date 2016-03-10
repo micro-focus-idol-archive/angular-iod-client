@@ -1,8 +1,8 @@
 /**
  * @ngdoc overview
- * @name iod-client
+ * @name hod-client
  * @description
- * This module is a utility client to wrap HavenOnDemand APIs as an Angular.js client
+ * This module is a utility client to wrap [HavenOnDemand APIs](https://dev.havenondemand.com/apis) as an Angular.js client
  *
  * For more additional information about the APIs please see [HOD documentation](https://dev.havenondemand.com/docs)
  */

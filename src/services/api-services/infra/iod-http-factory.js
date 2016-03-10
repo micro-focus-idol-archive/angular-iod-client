@@ -364,7 +364,7 @@ function HodHttpService($http, $log, hodEnvConfigService) {
 	}
 
 	function _buildUrlPrefix() {
-		return hodEnvConfigService.getIodHost() + '/' + API_LEVEL + '/';
+		return hodEnvConfigService.getHodHost() + '/' + API_LEVEL + '/';
 	}
 
 	function _buildApiPrefix(url, isAsync) {

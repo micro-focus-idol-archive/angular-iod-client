@@ -53,8 +53,8 @@ describe('', function () {
 		});
 
 		it('all methods should be defined', function () {
-			expect(serviceUnderTest.getIodHost).toBeDefined();
-			expect(serviceUnderTest.getIodPortal).toBeDefined();
+			expect(serviceUnderTest.getHodHost).toBeDefined();
+			expect(serviceUnderTest.getHodPortal).toBeDefined();
 			expect(serviceUnderTest.isEnvConfigValid).toBeDefined();
 		});
 
@@ -64,12 +64,12 @@ describe('', function () {
 
 		it('should return a correct IOD host URL', function () {
 			var expectedUrl = envConfigMock.iod_config.protocol + '://' + envConfigMock.iod_config.domain + ( envConfigMock.iod_config.port ? ':' + envConfigMock.iod_config.port : '');
-			expect(serviceUnderTest.getIodHost()).toEqual(expectedUrl)
+			expect(serviceUnderTest.getHodHost()).toEqual(expectedUrl)
 		});
 
 		it('should return a correct IOD host URL', function () {
 			var expectedUrl = envConfigMock.portal_config.protocol + '://' + envConfigMock.portal_config.domain + ( envConfigMock.portal_config.port ? ':' + envConfigMock.portal_config.port : '');
-			expect(serviceUnderTest.getIodPortal()).toEqual(expectedUrl)
+			expect(serviceUnderTest.getHodPortal()).toEqual(expectedUrl)
 		});
 	});
 
