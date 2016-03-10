@@ -87,7 +87,7 @@ function HodEnvConfigService( $log) {
 	 * @methodOf hod-client.hodEnvConfigService
 	 * @description Set the APIKEY to use for HOD APIs calls
 	 *
-	 * @param {string} APIKEY to use in calls
+	 * @param {string} APIKEY the APIKEY to use in calls
 	 * @returns {string} The new APIKEY
 	 */
 	function setApiKey(_apiKey){

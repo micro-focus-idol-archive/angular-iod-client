@@ -55,7 +55,6 @@ describe('IOD-Index-Service test', function () {
             expect(serviceUnderTest.indexStatus).toBeDefined();
             expect(serviceUnderTest.retrieveIndexesList).toBeDefined();
             expect(serviceUnderTest.retrieveResourcesList).toBeDefined();
-            expect($logMock.getInstance).toHaveBeenCalled();
         });
     });
 
@@ -66,8 +65,8 @@ describe('IOD-Index-Service test', function () {
             it('should call the HTTP GET with empty params', function () {
                 var indexName = 'foo'
                 serviceUnderTest.createIndex(indexName);
-                var wantedData = new ReqBodyData()
-                expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
+                var wantedData = new ReqQueryParams({index:indexName})
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('createtextindex/v1', wantedData)
             });
 
 
@@ -81,15 +80,16 @@ describe('IOD-Index-Service test', function () {
 
 
                 serviceUnderTest.createIndex(indexName, indexFlavor, indexDesc, indexFields, parametricFields, experationTime);
-                var wantedData = new ReqBodyData()
+                var wantedData = new ReqQueryParams()
                 wantedData.append({
+	                index:indexName,
                     flavor: indexFlavor,
                     description: indexDesc,
                     index_fields: indexFields,
                     parametric_fields: parametricFields,
                     expiretime: experationTime
                 })
-                expect(hodHttpServiceMock.doApiPost).toHaveBeenCalledWith('textindex/foo/v1', wantedData)
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('createtextindex/v1', wantedData)
             });
         });
 
@@ -98,7 +98,8 @@ describe('IOD-Index-Service test', function () {
             it('should call the index status with the name concated', function () {
                 var indexName = 'foo';
                 serviceUnderTest.indexStatus(indexName);
-                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('textindex/' + indexName + '/status/v1')
+	            var wantedData = new ReqQueryParams({index:indexName})
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('indexstatus/v1', wantedData)
             })
         });
 
@@ -111,7 +112,7 @@ describe('IOD-Index-Service test', function () {
                     flavor: INDEX_CONSTANTS.INDEX_FLAVORS.STANDARD
                 })
 
-                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1', wantedData)
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('listresources/v1', wantedData)
             })
         });
 
@@ -120,7 +121,7 @@ describe('IOD-Index-Service test', function () {
             it('should call the retrieveResourcesList', function () {
                 serviceUnderTest.retrieveResourcesList();
 
-                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('resource/v1')
+                expect(hodHttpServiceMock.doApiGet).toHaveBeenCalledWith('listresources/v1')
             })
         });
 
@@ -157,7 +158,7 @@ describe('IOD-Index-Service test', function () {
                     expect(onError).not.toHaveBeenCalled();
                 });
 
-                it('should return a rejected promise when passing null as the indexName', function () {
+                it('should return a rejected promise when passing undefined indexName', function () {
                     var indexName = undefined;
                     var file = 'someFile';
                     var reqConfig = {};
