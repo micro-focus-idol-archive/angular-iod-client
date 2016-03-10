@@ -18,6 +18,7 @@ This repo uses git-flow. develop is the development branch. master is the last k
 * Add `hod-client` to your main module dependency list
 * Set up your API-KEY to use on the calls using `hodEnvConfigService.setApiKey()`
 * Use `hodHttpService` for the different HTTP calls 
+* For detailed usage see project's [jsdoc](http://hpe-idol.github.io/angular-iod-client/#/api)
 
 ## Services 
 
