@@ -21,6 +21,7 @@ module.exports = function (grunt) {
 	};
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-ngdocs');
+	grunt.loadNpmTasks('grunt-gh-pages');
 	// Define the configuration for all the tasks
 	grunt.initConfig({
 
@@ -201,6 +202,7 @@ module.exports = function (grunt) {
 				}]
 			}
 		},
+
 		uglify: {
 			dist: {
 				files: {
@@ -208,7 +210,6 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-
 
 		// Copies remaining files to places other tasks can use
 		copy: {
@@ -280,6 +281,13 @@ module.exports = function (grunt) {
 				html5Mode: false
 			},
 			all: ['src/**/*.js']
+		},
+
+		'gh-pages': {
+			options: {
+				base: 'docs'
+			},
+			src: ['**']
 		}
 	});
 
